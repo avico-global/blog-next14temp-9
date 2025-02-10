@@ -59,10 +59,18 @@ export default function Navbar({
 
           {/* Main Nav Links */}
           <div className="hidden lg:flex text-white font-bold space-x-4 lg:space-x-9">
-            <Link title="Home" href="/">
+            <Link 
+              title="Home" 
+              href="/" 
+              className="hover:text-secondary transition-colors relative after:content-[''] after:absolute after:bottom-[-8px] after:left-0 after:w-full after:h-[2px] after:bg-secondary after:scale-x-0 hover:after:scale-x-100 after:transition-transform"
+            >
               Home
             </Link>
-            <Link title="Home" href="/">
+            <Link 
+              title="Blog" 
+              href="/" 
+              className="hover:text-secondary transition-colors relative after:content-[''] after:absolute after:bottom-[-8px] after:left-0 after:w-full after:h-[2px] after:bg-secondary after:scale-x-0 hover:after:scale-x-100 after:transition-transform"
+            >
               Blog
             </Link>
 
@@ -72,28 +80,28 @@ export default function Navbar({
               onMouseEnter={() => setIsDropdownOpen(true)}
               onMouseLeave={() => setIsDropdownOpen(false)}
             >
-              <button title="Categories" className="hover:text-black">
+              <button title="Categories" className="hover:text-secondary">
                 Categories
               </button>
 
               {/* Categories Dropdown */}
               {isDropdownOpen && (
-                <div className="absolute left-0 top-full bg-white shadow-xl rounded-md z-50 p-2 w-[300px] grid grid-cols-1">
+                <div className="absolute left-0 top-full bg-black shadow-xl rounded-md z-50 p-4 w-[500px] grid grid-cols-2 gap-4">
                   {categories.map((category, index) => (
                     <Link
                       key={index}
                       href={`/${encodeURI(sanitizeUrl(category.title))}`}
-                      className="border-b last:border-none"
+                      className="hover:bg-secondary rounded-xl transition-all duration-300"
                     >
-                      <div className="flex items-center gap-4 hover:bg-gray-100 p-2 transition">
+                      <div className="flex items-center gap-4 p-2">
                         <Image
                           src={`${imagePath}/${category.image}`}
                           alt={category.title}
                           width={60}
                           height={100}
-                          className="rounded-md h-14"
+                          className="rounded-md h-14 object-cover"
                         />
-                        <span className="font-medium capitalize">
+                        <span className="font-medium text-white capitalize">
                           {category.title}
                         </span>
                       </div>
@@ -103,7 +111,11 @@ export default function Navbar({
               )}
             </div>
 
-            <Link title="Contact" href="/contact">
+            <Link
+             title="Contact"
+              href="/contact"
+              className="hover:text-secondary transition-colors relative after:content-[''] after:absolute after:bottom-[-8px] after:left-0 after:w-full after:h-[2px] after:bg-secondary after:scale-x-0 hover:after:scale-x-100 after:transition-transform"          
+              >
               Contacts
             </Link>
           </div>

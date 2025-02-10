@@ -7,8 +7,7 @@ export default function Banner({ image, data }) {
   return (
     <div className="relative min-h-[80vh] overflow-hidden">
       <Image
-
-        src={"/img/lynx.webp" || image}
+        src={image}
         title={data.imageTitle || data.title || "Banner"}
         alt={data.altImage || data.tagline || "No Banner Found"}
         priority={true}
@@ -16,32 +15,35 @@ export default function Banner({ image, data }) {
         loading="eager"
         className="object-cover w-full h-full"
         sizes="(max-width: 320px) 320px,
-               (max-width: 480px) 480px,
-               (max-width: 768px) 768px,
-               (max-width: 1024px) 1024px,  
-               (max-width: 1280px) 1280px,
-               (max-width: 1600px) 1600px,
-               (max-width: 1920px) 1920px,
-               (max-width: 2560px) 2560px,
                (max-width: 3840px) 3840px,
                100vw"
       />
-      <div className="relative z-10 gap-5 text-start justify-centerv items-center px-20 py-36">
-        <h1
-          // style={{ fontSize: data.titleFontSize || 60 }}
-          className="font-bold  capitalize text-6xl text-white text-start"
-        >
+      <div className="relative z-10 flex flex-col items-start justify-center  text-center px-20 py-36">
+        <h1 className="font-bold capitalize text-6xl text-white">
           {data.title}
         </h1>
         {data.tagline && (
           <p
             style={{ fontSize: data.taglineFontSize || 18 }}
-            className="leading-tight md:leading-none"
+            className="leading-tight md:leading-none text-white mt-4"
           >
             {data.tagline}
           </p>
         )}
       </div>
+
+      {/* <div className="relative z-10 grid grid-cols-1 md:grid-cols-3 justify-end gap-8 px-20 pb-20">
+        {[1, 2, 3].map((item) => (
+          <div key={item} className=" text-white p-6 rounded-lg">
+            <h3 className="font-bold text-xl mb-2">Blog Title {item}</h3>
+            <div className="flex items-center gap-4 text-sm text-gray-600">
+              <span>Category {item}</span>
+              <span>•</span>
+              <span>Jan {item}, 2024</span>
+            </div>
+          </div>
+        ))}
+      </div> */}
     </div>
   );
 }

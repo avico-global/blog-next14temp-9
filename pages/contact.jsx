@@ -88,58 +88,122 @@ export default function Contact({
                     contact_details={contact_details}
                   />
                 );
-              case "breadcrumbs":
-                return (
-                  <FullContainer key={index}>
-                    <Container>
-                      <Breadcrumbs breadcrumbs={breadcrumbs} className="py-7" />
-                      <h1 className="w-full text-3xl font-bold border-b mb-10">
-                        Contact Us
-                      </h1>
-                    </Container>
-                  </FullContainer>
-                );
-              case "map":
-                return (
-                  <FullContainer>
-                    <Container>
-                      {contact_details?.mapDetails?.mapUrl ? (
-                        <LoadScript
-                          // googleMapsApiKey={process.env.NEXT_MAP_API_KEY}
-                          googleMapsApiKey="AIzaSyAPeJFoV41Bq2QOImPkf3Dai8hP6aZ7MFg"
-                        >
-                          <GoogleMap
-                            mapContainerClassName="h-[500px] w-full rouded-md"
-                            center={contact_details?.mapDetails?.center}
-                            zoom={12}
-                          >
-                            <Marker
-                              position={contact_details?.mapDetails?.center}
-                            />
-                          </GoogleMap>
-                        </LoadScript>
-                      ) : (
-                        <Map location="united states" />
-                      )}
-                    </Container>
-                  </FullContainer>
-                );
+
               case "contact info":
                 return (
-                  <FullContainer key={index}>
-                    <Container className="mt-10 text-center text-gray-500 text-xs gap-3">
-                      <p className="text-xl mt-3 font-bold text-black">
-                        {contact_details?.name}
-                      </p>
-                      <p>{contact_details?.email}</p>
-                      <p>{contact_details?.address}</p>
-                      <p>{contact_details?.phone}</p>
-                    </Container>
-                  </FullContainer>
+                  <div className="py-20 bg-gradient-to-b">
+                    <div className="max-w-7xl mx-auto px-4">
+                      <div className="flex justify-center">
+                        <div className="w-full max-w-5xl p-8 md:p-16">
+                          <h1 className="text-4xl font-bold text-white mb-10">
+                            Contact us
+                          </h1>
+                          <form className="space-y-8 w-full">
+                            {/* Name Fields in Flex */}
+                            <div className="flex gap-6">
+                              <div className="relative flex-1 w-full">
+                                <label
+                                  htmlFor="firstName"
+                                  className="block text-sm font-semibold text-white mb-2"
+                                >
+                                  First Name
+                                </label>
+                                <input
+                                  type="text"
+                                  id="firstName"
+                                  name="firstName"
+                                  className="w-full px-4 py-4 rounded-full border-2 border-secondary focus:border-secondary focus:ring-2 focus:ring-secondary/50 transition-all duration-200 bg-transparent text-white"
+                                  required
+                                />
+                              </div>
+
+                              <div className="relative flex-1 w-full">
+                                <label
+                                  htmlFor="lastName"
+                                  className="block text-sm font-semibold text-white mb-2"
+                                >
+                                  Last Name
+                                </label>
+                                <input
+                                  type="text"
+                                  id="lastName"
+                                  name="lastName"
+                                  className="w-full px-4 py-4 rounded-full border-2 border-secondary focus:border-secondary focus:ring-2 focus:ring-secondary/50 transition-all duration-200 bg-transparent text-white"
+                                  required
+                                />
+                              </div>
+                            </div>
+
+                            {/* Email and Phone in one line */}
+                            <div className="flex gap-6">
+                              <div className="relative flex-1 w-full">
+                                <label
+                                  htmlFor="email"
+                                  className="block text-sm font-semibold text-white mb-2"
+                                >
+                                  Email Address
+                                </label>
+                                <input
+                                  type="email"
+                                  id="email"
+                                  name="email"
+                                  className="w-full px-4 py-4 rounded-full border-2 border-secondary focus:border-secondary focus:ring-2 focus:ring-secondary/50 transition-all duration-200 bg-transparent text-white"
+                                  required
+                                />
+                              </div>
+
+                              <div className="relative flex-1 w-full">
+                                <label
+                                  htmlFor="phone"
+                                  className="block text-sm font-semibold text-white mb-2"
+                                >
+                                  Phone Number
+                                </label>
+                                <input
+                                  type="tel"
+                                  id="phone"
+                                  name="phone"
+                                  className="w-full px-4 py-4 rounded-full border-2 border-secondary focus:border-secondary focus:ring-2 focus:ring-secondary/50 transition-all duration-200 bg-transparent text-white"
+                                  required
+                                />
+                              </div>
+                            </div>
+
+                            <div className="relative">
+                              <label
+                                htmlFor="message"
+                                className="block text-sm font-semibold text-white mb-2"
+                              >
+                                Your Message
+                              </label>
+                              <textarea
+                                id="message"
+                                name="message"
+                                rows={6}
+                                className="w-full px-4 py-4 rounded-3xl  border-2  border-secondary focus:border-secondary focus:ring-2 focus:ring-secondary/50 transition-all duration-200 bg-transparent text-white resize-none"
+                                required
+                              />
+                            </div>
+
+                            <div className="mt-8">
+                              <button
+                                type="submit"
+                                className="w-36 rounded-full border-2 border-secondary  text-secondary hover:bg-secondary hover:text-white px-4 py-3 font-semibold text-base focus:outline-none focus:ring-4 transform transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] shadow-lg hover:shadow-xl"
+                              >
+                                Submit
+                              </button>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 );
+
               case "footer":
                 return (
                   <Footer
+                    logo={logo}
                     key={index}
                     imagePath={imagePath}
                     blog_list={blog_list}
