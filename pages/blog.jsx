@@ -13,7 +13,7 @@ import Footer from "@/components/containers/Footer";
 import AllArticles from "@/components/AllArticles";
 import Categories from "@/components/Categories";
 
-export default function index({
+export default function blog({
   logo,
   blog_list,
   imagePath,
@@ -32,7 +32,6 @@ export default function index({
   return (
     <>
       <Navbar
-        key={index}
         logo={logo}
         imagePath={imagePath}
         blog_list={blog_list}
@@ -40,23 +39,14 @@ export default function index({
         nav_type={nav_type}
         contact_details={contact_details}
       />
-      <Banner
-        key={index}
-        data={banner.value}
-        image={`${imagePath}/${banner?.file_name}`}
-        blog_list={blog_list}
-        imagePath={imagePath}
-      />
-      <MostPopular key={index} blog_list={blog_list} imagePath={imagePath} />
+
       <AllArticles
-        heading={"All Articles"}
+        className=" pt-12 px-4 mb-6 "
         articles={blog_list}
         imagePath={imagePath}
       />
-      <Categories categories={categories} imagePath={imagePath} />
 
       <Footer
-        key={index}
         logo={logo}
         imagePath={imagePath}
         blog_list={blog_list}

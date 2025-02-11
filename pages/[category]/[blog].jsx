@@ -122,43 +122,41 @@ export default function Blog({
                     blog_type={blog_type}
                   />
                 );
-            
+
               case "blog text":
                 return (
                   <FullContainer key={index}>
                     <Container>
-                      <div className="grid  gap-14 w-full">
-                        <div className=" text-center ">
+                      <div className="grid gap-14 w-full">
+                        <div className="text-center">
                           <article className="prose text-white lg:prose-xl max-w-full">
                             <div
                               dangerouslySetInnerHTML={{ __html: content }}
                             />
                           </article>
-                          <div className="mt-12  border-t">
-                            <h3 className="text-lg font-semibold  text-center text-white -mt-3 bg-secondary  w-36  ">
-                              Share This Post:
+                          <div className="mt-12 border-t flex flex-col items-center">
+                            <h3 className="text-lg font-semibold text-white -mt-3  bg-secondary w-36 text-center">
+                              Share This Post
                             </h3>
-                            <div className=" flex justify-center my-4 " >
-
-                            <SocialShare
-                              url={`http://${domain}${sanitizeUrl(
-                                myblog?.article_category
-                              )}/${sanitizeUrl(myblog?.title)}`}
-                              title={myblog?.value.title}
+                            <div className="my-4">
+                              <SocialShare
+                                url={`http://${domain}${sanitizeUrl(
+                                  myblog?.article_category
+                                )}/${sanitizeUrl(myblog?.title)}`}
+                                title={myblog?.value.title}
                               />
-                              </div>
+                            </div>
                           </div>
                         </div>
-                       
                       </div>
                     </Container>
                   </FullContainer>
                 );
-    
+
               case "footer":
                 return (
                   <Footer
-                  logo={logo}
+                    logo={logo}
                     key={index}
                     imagePath={imagePath}
                     blog_list={blog_list}
@@ -258,7 +256,7 @@ export async function getServerSideProps({ req, query }) {
       tag_list: tag_list?.data[0]?.value || null,
       categories: categories?.data[0]?.value || null,
       about_me: about_me.data[0] || null,
-      contact_details: contact_details.data[0].value,
+      contact_details: contact_details.data[0]?.value || null,
       favicon: favicon?.data[0]?.file_name || null,
       nav_type: nav_type?.data[0]?.value || {},
       blog_type: blog_type?.data[0]?.value || {},

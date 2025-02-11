@@ -17,13 +17,13 @@ export default function BlogBannerStyle3({ myblog, imagePath }) {
             myblog?.value?.tagline ||
             "No Banner Found"
           }
-          src={`${imagePath}/${myblog?.file_name}`}
+          src= "/img/ContactLynx.webp" 
           title={myblog?.value.imageTitle || myblog?.value.title}
           className="-z-10 w-full h-full object-cover absolute top-0"
         />
         <FullContainer
           style={{
-            backgroundColor: `rgba(10, 0, 0, ${myblog?.opacity / 100})`,
+            backgroundColor: `rgba(10, 0, 0, ${myblog?.opacity / 50})`,
             color: myblog?.textColor || "white",
           }}
           className="gap-3 flex flex-col items-center justify-center py-28 text-center"

@@ -21,7 +21,7 @@ export default function Footer({
   };
 
   return (
-    <div className="bg-primary px-40 ">
+    <div className="bg-primary px-10 lg:px-40 ">
       <div className=" text-white  py-16 pt-12 border-t border-gray-600">
         <div className="grid grid-cols-1 md:grid-cols-footer gap-10 w-full">
           <Logo logo={logo} imagePath={imagePath} />

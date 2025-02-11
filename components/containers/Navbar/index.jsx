@@ -59,16 +59,16 @@ export default function Navbar({
 
           {/* Main Nav Links */}
           <div className="hidden lg:flex text-white font-bold space-x-4 lg:space-x-9">
-            <Link 
-              title="Home" 
-              href="/" 
+            <Link
+              title="Home"
+              href="/"
               className="hover:text-secondary transition-colors relative after:content-[''] after:absolute after:bottom-[-8px] after:left-0 after:w-full after:h-[2px] after:bg-secondary after:scale-x-0 hover:after:scale-x-100 after:transition-transform"
             >
               Home
             </Link>
-            <Link 
-              title="Blog" 
-              href="/" 
+            <Link
+              title="Blog"
+              href="/blog"
               className="hover:text-secondary transition-colors relative after:content-[''] after:absolute after:bottom-[-8px] after:left-0 after:w-full after:h-[2px] after:bg-secondary after:scale-x-0 hover:after:scale-x-100 after:transition-transform"
             >
               Blog
@@ -112,10 +112,10 @@ export default function Navbar({
             </div>
 
             <Link
-             title="Contact"
+              title="Contact"
               href="/contact"
-              className="hover:text-secondary transition-colors relative after:content-[''] after:absolute after:bottom-[-8px] after:left-0 after:w-full after:h-[2px] after:bg-secondary after:scale-x-0 hover:after:scale-x-100 after:transition-transform"          
-              >
+              className="hover:text-secondary transition-colors relative after:content-[''] after:absolute after:bottom-[-8px] after:left-0 after:w-full after:h-[2px] after:bg-secondary after:scale-x-0 hover:after:scale-x-100 after:transition-transform"
+            >
               Contacts
             </Link>
           </div>
@@ -169,7 +169,7 @@ export default function Navbar({
 
       {/* Sidebar for Mobile */}
       <div
-        className={`sidebar fixed top-0 left-0 h-screen flex flex-col justify-between bg-white text-black shadow-xl z-50 overflow-x-hidden p-10 lg:p-6 ${
+        className={`sidebar fixed top-0 left-0 h-screen flex flex-col justify-between bg-primary text-white shadow-xl z-50 overflow-x-hidden p-10 lg:p-6 ${
           sidebar ? "open" : "-ml-96"
         }`}
         ref={sidebarRef}
@@ -178,7 +178,7 @@ export default function Navbar({
           <div className="flex items-center justify-between">
             <Logo logo={logo} imagePath={imagePath} />
             <X
-              className="w-8 text-black cursor-pointer"
+              className="w-8 text-white cursor-pointer"
               onClick={() => setSidebar(false)}
             />
           </div>

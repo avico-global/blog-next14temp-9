@@ -144,7 +144,7 @@ export default function Categories({
                 return (
                   <div
                     key={index}
-                    className="mb-12 mt-52 mx-auto max-w-[1500px] "
+                    className="mb-12 mt-52 px-4 mx-auto max-w-[1500px] "
                   >
                     <div className="grid  gap-12 w-full">
                       <div>
@@ -239,18 +239,16 @@ export default function Categories({
                               </p>
 
                               <Link
-                           href={`/${sanitizeUrl(category)}/${sanitizeUrl(
-                            item?.title
-                          )}`}
-                          className="  font-bold text-secondary border-2 border-secondary  rounded-full p-6 hover:bg-secondary hover:text-white "
-                        >
-                          Continue Reading
-                        </Link>
+                                href={`/${sanitizeUrl(category)}/${sanitizeUrl(
+                                  item?.title
+                                )}`}
+                                className="  font-bold text-secondary border-2 border-secondary  rounded-full p-6 hover:bg-secondary hover:text-white "
+                              >
+                                Continue Reading
+                              </Link>
                             </div>
                           ))}
                         </div>
-
-                    
                       </div>
                     </div>
                   </div>
@@ -383,13 +381,13 @@ export async function getServerSideProps({ req, query }) {
       logo: logo?.data[0],
       layout: layout?.data[0]?.value || null,
       banner: banner.data[0] || null,
-      blog_list: blog_list.data[0].value,
+      blog_list: blog_list.data[0]?.value || null,
       categories: categories?.data[0]?.value || null,
       footer_text: footer_text?.data[0]?.value || null,
       copyright: copyright?.data[0]?.value || null,
       domain: domain === "hellospace.us" ? req?.headers?.host : domain,
       about_me: about_me.data[0] || null,
-      contact_details: contact_details.data[0].value,
+      contact_details: contact_details.data[0]?.value || null,
       tag_list: tag_list?.data[0]?.value || null,
       nav_type: nav_type?.data[0]?.value || {},
       footer_type: footer_type?.data[0]?.value || {},
