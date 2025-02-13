@@ -14,11 +14,11 @@ export default function MostPopular({ blog_list = [], imagePath }) {
       <div className="py-16 text-center bg-primary ">
         <div className="px-3 py-9 md:px-9">
           <h3 className=" text-gray-400 text-lg " >Exploring the Frontiers of Technology</h3>
-          <h2 className="font-bold text-6xl  text-white px-6">
+          <h2 className="font-bold text-4xl lg:text-6xl  text-white px-6">
             Most Popular
           </h2>
           <p className=" text-gray-400  lg:mx-96 mt-6" >Welcome to our Tech blog, your go-to destination for exploring the frontiers of technology. Here, we dive deep into the latest advancements, trends, and innovations across various tech domains, keeping you informed and inspired</p>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full mt-11 mb-3">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full mt-11 mb-3">
             {popularBlogs.map((item, index) => (
               <BlogCard
                 key={item.id || index}
@@ -84,7 +84,7 @@ function BlogCard({
         </Link>
         
         <Link href={href || ""} className="group">
-          <h3 className="font-bold text-5xl text-start mb-2 text-secondary transition-colors">
+          <h3 className="font-bold text-4xl lg:text-5xl text-start mb-2 text-secondary transition-colors">
             {title}
           </h3>
         </Link>

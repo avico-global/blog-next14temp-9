@@ -128,14 +128,14 @@ export default function Blog({
                   <FullContainer key={index}>
                     <Container>
                       <div className="grid gap-14 w-full">
-                        <div className="text-center">
-                          <article className="prose text-white lg:prose-xl max-w-full">
+                        <div className="text-start mt-8">
+                          <article className="prose lg:prose-xl prose-invert text-white max-w-[700px] mx-auto [&>*]:text-white">
                             <div
                               dangerouslySetInnerHTML={{ __html: content }}
                             />
                           </article>
-                          <div className="mt-12 border-t flex flex-col items-center">
-                            <h3 className="text-lg font-semibold text-white -mt-3  bg-secondary w-36 text-center">
+                          <div className="mt-12 border-t flex flex-col items-center max-w-[700px] mx-auto ">
+                            <h3 className="text-lg font-semibold text-white -mt-3 bg-primary w-36 text-center">
                               Share This Post
                             </h3>
                             <div className="my-4">

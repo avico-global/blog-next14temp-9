@@ -19,7 +19,7 @@ export default function AllArticles({ articles, imagePath, heading , className =
       <div className={className}>
         <div className="relative w-full mb-12">
           <div className=" w-full h-[3px] bg-gradient-to-r from-transparent via-primary1 to-transparent top-1/2"></div>
-          <h2 className="relative font-bold uppercase text-5xl text-white px-8 py-3 bg-theme inline-block left-1/2 -translate-x-1/2 tracking-wider rounded-lg">
+          <h2 className="relative font-bold uppercase text-4xl lg:text-5xl text-white px-8 py-3 bg-theme inline-block left-1/2 -translate-x-1/2 tracking-wider rounded-lg">
             {heading}
           </h2>
         </div>

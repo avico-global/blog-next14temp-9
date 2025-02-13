@@ -12,6 +12,7 @@ import Navbar from "@/components/containers/Navbar";
 import Footer from "@/components/containers/Footer";
 import AllArticles from "@/components/AllArticles";
 import Categories from "@/components/Categories";
+import Link from "next/link";
 
 export default function index({
   logo,
@@ -47,9 +48,29 @@ export default function index({
         blog_list={blog_list}
         imagePath={imagePath}
       />
+
+      {blog_list?.length > 0 && (
+        <div className="border-t flex lg:hidden border-white/20 bg-black/30 backdrop-blur-md py-8  bottom-0 w-full">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mx-4 md:mx-8 lg:mx-20">
+            {blog_list
+              ?.slice(-3)
+              .reverse()
+              .map((item, index) => (
+                <BlogCard
+                  key={index}
+                  {...item}
+                  href={`/${sanitizeUrl(item.article_category)}/${sanitizeUrl(
+                    item?.title
+                  )}`}
+                />
+              ))}
+          </div>
+        </div>
+      )}
+
       <MostPopular key={index} blog_list={blog_list} imagePath={imagePath} />
       <AllArticles
-        heading={"All Articles"}
+        heading={"Latest Articles"}
         articles={blog_list}
         imagePath={imagePath}
       />
@@ -64,6 +85,43 @@ export default function index({
         footer_type={footer_type}
       />
     </>
+  );
+}
+
+function BlogCard({
+  title,
+  article_category,
+  image,
+  href,
+  imageTitle,
+  altImage,
+  tagline,
+  date,
+  author,
+}) {
+  return (
+    <div className="group hover:bg-white/10 rounded-lg backdrop-blur-sm p-5 transition-all duration-300">
+      <div className="flex flex-col space-y-3">
+        <Link
+          href={`/${sanitizeUrl(article_category)}`}
+          className="text-white/80 text-sm font-semibold uppercase tracking-wider hover:text-white transition-colors"
+        >
+          {article_category}
+        </Link>
+
+        <Link
+          href={href || ""}
+          className="text-xl md:text-2xl font-bold text-white  decoration-2 underline-offset-2 line-clamp-2"
+        >
+          {title}
+        </Link>
+
+        <div className="flex items-center justify-between mt-4">
+          {author && <span className="text-white/70 text-sm">{author}</span>}
+          <p className="text-white/70 text-sm">{date}</p>
+        </div>
+      </div>
+    </div>
   );
 }
 

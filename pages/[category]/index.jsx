@@ -155,7 +155,7 @@ export default function Categories({
                           {category?.replaceAll("-", " ")}
                         </h1>
 
-                        <div className="flex gap-6 mb-10">
+                        <div className=" flex flex-col lg:flex-row gap-3 lg:gap-6 mb-10">
                           {categories?.map((item, index) => (
                             <Link
                               key={index}
@@ -198,7 +198,7 @@ export default function Categories({
                                     fill={true}
                                     loading="lazy"
                                     alt="blog"
-                                    className="w-full h-full object-cover absolute top-0 hover:scale-125 transition-all"
+                                    className="w-full h-full object-cover top-0 hover:scale-125 transition-all"
                                   />
                                 </div>
                               </Link>
@@ -216,7 +216,7 @@ export default function Categories({
                                   item.article_category
                                 )}/${sanitizeUrl(item?.title)}`}
                               >
-                                <p className="font-bold text-5xl text-start my-4 text-secondary transition-colors">
+                                <p className="font-bold text-3xl lg:text-5xl text-start my-4 text-secondary transition-colors">
                                   {item.title}
                                 </p>
                               </Link>

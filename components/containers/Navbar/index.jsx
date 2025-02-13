@@ -9,6 +9,7 @@ import FullContainer from "@/components/common/FullContainer";
 
 export default function Navbar({
   logo,
+  logoText,
   categories,
   imagePath,
   handleSearchToggle,
@@ -21,7 +22,18 @@ export default function Navbar({
 }) {
   const [sidebar, setSidebar] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const sidebarRef = useRef(null); // Add a ref for the sidebar
+  const sidebarRef = useRef(null);
+
+  // Add this useEffect to handle window resize
+  useEffect(() => {
+    const handleResize = () => {
+      // Close sidebar on any resize to prevent unwanted behavior
+      setSidebar(false);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const toggleDropdown = () => {
     setIsDropdownOpen((prevState) => !prevState);
@@ -51,10 +63,10 @@ export default function Navbar({
 
   return (
     <>
-      <div className="w-full absolute top-0 left-0 z-50 text-white shadow-sm">
+      <div className="w-full absolute top-0 left-0 z-50 text-white shadow-sm my-4">
         <div className="flex items-center justify-between gap-3 mx-auto pt-6 pb-6 px-20 max-w-full">
           <div className="">
-            <Logo logo={logo} imagePath={imagePath} />
+            <Logo logo={logo} imagePath={imagePath}  />
           </div>
 
           {/* Main Nav Links */}
@@ -86,7 +98,7 @@ export default function Navbar({
 
               {/* Categories Dropdown */}
               {isDropdownOpen && (
-                <div className="absolute left-0 top-full bg-black shadow-xl rounded-md z-50 p-4 w-[500px] grid grid-cols-2 gap-4">
+                <div className="absolute left-0 top-full bg-black shadow-xl rounded-md z-50 p-4 w-[500px] grid  gap-4">
                   {categories.map((category, index) => (
                     <Link
                       key={index}
@@ -123,7 +135,7 @@ export default function Navbar({
           <div className=" flex ">
             {/* Search Section */}
             <div
-              className="flex items-center justify-end gap-3 text-gray-500 relative "
+              className="flex items-center justify-end gap-3 text-gray-500 relative"
               ref={searchContainerRef}
             >
               <div className="flex items-center justify-end gap-2">
@@ -133,115 +145,114 @@ export default function Navbar({
                 />
               </div>
               {openSearch && (
-                <>
+                <div className="absolute top-full right-0 bg-white shadow-2xl rounded-md mt-1 z-10 w-[calc(100vw-40px)] lg:w-[650px]">
+                  <input
+                    type="text"
+                    value={searchQuery}
+                    onChange={handleSearchChange}
+                    className="w-full border border-gray-300 rounded-t-md p-3 focus:outline-none"
+                    placeholder="Search..."
+                  />
                   {searchQuery && (
-                    <div className="absolute top-full p-3 right-0 bg-white shadow-2xl rounded-md mt-1 z-10 w-[calc(100vw-40px)] lg:w-[650px]">
+                    <div className="max-h-[400px] overflow-y-auto">
                       {filteredBlogs?.map((item, index) => (
                         <Link
                           title={item.title}
                           key={index}
                           href={`/${item.article_category.name}/${item.key}`}
                         >
-                          <div className="p-2 hover:bg-gray-200 border-b text-gray-600">
+                          <div className="p-3 hover:bg-gray-100 border-b text-gray-600">
                             {item.title}
                           </div>
                         </Link>
                       ))}
                     </div>
                   )}
-                  <input
-                    type="text"
-                    value={searchQuery}
-                    onChange={handleSearchChange}
-                    className="border border-gray-300 rounded-md p-1 transition-opacity duration-300 ease-in-out opacity-100"
-                    placeholder="Search..."
-                  />
-                </>
+                </div>
               )}
             </div>
             <Menu
               onClick={() => setSidebar(true)}
-              className="cursor-pointer w-8"
+              className="cursor-pointer w-8 ml-4"
             />
           </div>
         </div>
       </div>
 
-      {/* Sidebar for Mobile */}
+      {/* Updated Sidebar - modify the className */}
       <div
-        className={`sidebar fixed top-0 left-0 h-screen flex flex-col justify-between bg-primary text-white shadow-xl z-50 overflow-x-hidden p-10 lg:p-6 ${
-          sidebar ? "open" : "-ml-96"
-        }`}
+        className={`fixed top-0 ${
+          sidebar ? "right-0" : "-right-full"
+        } h-screen w-[85%] sm:w-[400px] bg-primary text-white shadow-xl z-50 transition-all duration-300 ease-in-out overflow-y-auto`}
         ref={sidebarRef}
       >
-        <div>
+        <div className="p-6 h-full flex flex-col">
+          {/* Sidebar Header */}
           <div className="flex items-center justify-between">
             <Logo logo={logo} imagePath={imagePath} />
             <X
-              className="w-8 text-white cursor-pointer"
+              className="w-8 text-white cursor-pointer hover:text-secondary transition-colors"
               onClick={() => setSidebar(false)}
             />
           </div>
 
-          <div className="pt-32 hidden lg:flex flex-col items-center p-2">
-            <div className="lg:flex lg:flex-col">
-              {lastThreeBlogs.map((item, index) => (
-                <div
-                  key={index}
-                  className="grid grid-cols-widget1 gap-4 py-3 border-b last:border-none"
-                >
-                  <Link
-                    title={item.title || "Article"}
-                    href={`/${encodeURI(
-                      sanitizeUrl(item.article_category)
-                    )}/${encodeURI(sanitizeUrl(item.title))}`}
-                  >
-                    <div className="overflow-hidden relative min-h-20 w-full bg-black flex-1 rounded-full">
-                      <Image
-                        title={
-                          item?.imageTitle || item?.title || "Article Thumbnail"
-                        }
-                        alt={
-                          item?.tagline || item?.altText || "Article Thumbnail"
-                        }
-                        src={
-                          item.image
-                            ? `${imagePath}/${item.image}`
-                            : "/no-image.png"
-                        }
-                        fill
-                        loading="lazy"
-                        className="object-cover hover:scale-125 transition-all"
-                        style={{ objectFit: "cover" }}
-                      />
-                    </div>
-                  </Link>
-                  <div>
+          {/* Recent Posts Section */}
+          <div className="mt-10 hidden lg:flex ">
+            <div>
+              <h3 className="text-xl font-bold mb-6 border-b border-gray-700 pb-2">
+                Recent Posts
+              </h3>
+              <div className="space-y-6">
+                {lastThreeBlogs.map((item, index) => (
+                  <div key={index} className="group">
                     <Link
-                      title={item.title || "Article Link"}
+                      title={item.title || "Article"}
                       href={`/${encodeURI(
                         sanitizeUrl(item.article_category)
                       )}/${encodeURI(sanitizeUrl(item.title))}`}
+                      className="flex gap-4 items-center"
                     >
-                      <p className="font-semibold leading-tight ">
-                        {item.title}
-                      </p>
+                      <div className="relative w-16 sm:w-24 h-16 sm:h-24 rounded-lg overflow-hidden flex-shrink-0">
+                        <Image
+                          src={
+                            item.image
+                              ? `${imagePath}/${item.image}`
+                              : "/no-image.png"
+                          }
+                          alt={
+                            item?.tagline ||
+                            item?.altText ||
+                            "Article Thumbnail"
+                          }
+                          fill
+                          className="object-cover group-hover:scale-110 transition-transform duration-300"
+                        />
+                      </div>
+                      <div className="flex-1">
+                        <h4 className="font-medium text-sm sm:text-base group-hover:text-secondary transition-colors line-clamp-2">
+                          {item.title}
+                        </h4>
+                      </div>
                     </Link>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           </div>
 
-          {/* Sidebar Menu Links */}
-          <div className="flex lg:hidden text-2xl flex-col gap-6 mt-16">
-            <Link title="Home" href="/">
+          {/* Mobile Menu Links */}
+          <div className="lg:hidden flex flex-col gap-4 mt-8">
+            <Link
+              title="Home"
+              href="/"
+              className="py-2 hover:text-secondary transition-colors"
+            >
               Home
             </Link>
             <div className="relative">
               <button
                 title="Categories"
-                className="cursor-pointer"
+                className="cursor-pointer py-2 hover:text-secondary transition-colors w-full text-left"
                 onClick={toggleDropdown}
               >
                 Categories
@@ -249,21 +260,23 @@ export default function Navbar({
 
               {/* Categories Dropdown */}
               {isDropdownOpen && (
-                <div className="absolute left-0 top-full bg-white text-black shadow-lg rounded-md z-50 p-4 w-[300px]  grid grid-cols-1 gap-4">
+                <div className="relative bg-black/50 rounded-md mt-2 p-4 w-full grid grid-cols-1 gap-4">
                   {categories.map((category, index) => (
                     <Link
                       key={index}
                       href={`/${encodeURI(sanitizeUrl(category.title))}`}
                     >
-                      <div className="flex items-center  gap-4 hover:bg-gray-100 p-2 transition">
+                      <div className="flex items-center gap-3 hover:bg-black/30 p-2 rounded-lg transition">
                         <Image
                           src={`${imagePath}/${category.image}`}
                           alt={category.title}
-                          width={60}
-                          height={100}
-                          className="rounded-md"
+                          width={40}
+                          height={40}
+                          className="rounded-md h-10 object-cover"
                         />
-                        <span className="font-semibold">{category.title}</span>
+                        <span className="font-medium text-sm">
+                          {category.title}
+                        </span>
                       </div>
                     </Link>
                   ))}
@@ -271,36 +284,24 @@ export default function Navbar({
               )}
             </div>
 
-            <Link title="Contact" href="/contact">
+            <Link
+              title="Contact"
+              href="/contact"
+              className="py-2 hover:text-secondary transition-colors"
+            >
               Contacts
             </Link>
 
             <Link
               title="About"
               href="/about"
-              className="uppercase text-sm mb-2 hover:text-button w-fit transition-all"
+              className="py-2 hover:text-secondary transition-colors"
             >
               About
             </Link>
           </div>
         </div>
       </div>
-
-      {/* Sidebar Styles */}
-      <style jsx>{`
-        .sidebar {
-          width: 0;
-          transition: width 0.3s ease;
-        }
-        .sidebar.open {
-          width: 300px;
-        }
-        @media only screen and (max-width: 600px) {
-          .sidebar.open {
-            width: 100%;
-          }
-        }
-      `}</style>
     </>
   );
 }
