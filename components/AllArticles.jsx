@@ -30,15 +30,21 @@ export default function AllArticles({ articles, imagePath, heading , className =
               className="group relative overflow-hidden rounded-2xl shadow-lg transition-all duration-500 hover:transform hover:-translate-y-2 hover:shadow-2xl bg-theme/50 backdrop-blur-sm"
             >
               <div className="relative overflow-hidden h-[400px]">
-                <Image
-                  title={item.imageTitle || item.title || "Article Thumbnail"}
-                  alt={item.altImage || item.tagline || "No Thumbnail Found"}
-                  src={`${imagePath}/${item.image}`}
-                  fill={true}
-                  loading="lazy"
-                  className="object-cover transition-all duration-700 group-hover:scale-105 group-hover:brightness-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent opacity-90 group-hover:opacity-75 transition-opacity duration-300" />
+                <Link
+                  href={`/${sanitizeUrl(item.article_category)}/${sanitizeUrl(item?.title)}`}
+                  title={item.title}
+                  className="block relative h-full"
+                >
+                  <Image
+                    title={item.imageTitle || item.title || "Article Thumbnail"}
+                    alt={item.altImage || item.tagline || "No Thumbnail Found"}
+                    src={`${imagePath}/${item.image}`}
+                    fill={true}
+                    loading="lazy"
+                    className="object-cover transition-all duration-700 group-hover:scale-105 group-hover:brightness-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent opacity-90 group-hover:opacity-75 transition-opacity duration-300" />
+                </Link>
                 
                 <div className="absolute bottom-0 p-6 space-y-3 w-full transform transition-transform duration-300 group-hover:translate-y-[-8px]">
                   <Badge className="mb-2 inline-block text-white bg-secondary hover:bg-secondary/90 transition-colors px-4 py-1 text-sm font-medium rounded-full shadow-lg">
