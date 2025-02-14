@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
 import { sanitizeUrl } from '@/lib/myFun'
 
 export default function Categories({categories, imagePath}) {
@@ -20,6 +19,7 @@ export default function Categories({categories, imagePath}) {
       >
         {categories.map((category, index) => (
           <Link
+            title={category.title}
             key={index}
             href={`/${encodeURI(sanitizeUrl(category.title))}`}
             className="transition-all duration-500 border-b sm:border-b-0 sm:border-r border-gray-400 last:border-b-0 sm:last:border-r-0 hover:bg-black/20 group"

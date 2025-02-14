@@ -50,7 +50,9 @@ export default function Footer({
               />
               <label htmlFor="privacy-policy" className="text-normal text-white flex items-center">
                 I have read and agree to the{" "}
-                <Link href="/privacy-policy" className="text-secondary hover:text-secondary/80 hover:underline transition-colors ml-1">
+                <Link 
+                title="Privacy Policy"
+                href="/privacy-policy" className="text-secondary hover:text-secondary/80 hover:underline transition-colors ml-1">
                   Privacy Policy
                 </Link>
               </label>
@@ -65,7 +67,7 @@ export default function Footer({
               {categories?.map((item, index) => (
                 <Link
                   key={index}
-                  title={item?.title || "Article Link"}
+                  title={item?.title || category || "Article Link"}
                   href={`/${sanitizeUrl(item.title)}`}
                   className={cn(
                     "text-sm px-4 py-2 rounded-full border border-gray-600 hover:border-secondary hover:text-secondary transition-all duration-300",
@@ -81,23 +83,35 @@ export default function Footer({
           <div className="flex flex-col items-center">
             <p className="font-bold text-lg mb-6 text-secondary">Quick Links</p>
             <div className="flex flex-wrap gap-4 justify-center">
-              <Link href="/" className="text-sm px-4 py-2 rounded-full border border-gray-600 hover:border-secondary hover:text-secondary transition-all duration-300">
+              <Link 
+              title="Home"
+              href="/" className="text-sm px-4 py-2 rounded-full border border-gray-600 hover:border-secondary hover:text-secondary transition-all duration-300">
                 Home
               </Link>
-              <Link href="/about" className="text-sm px-4 py-2 rounded-full border border-gray-600 hover:border-secondary hover:text-secondary transition-all duration-300">
+              <Link
+              title="About"
+              href="/about" className="text-sm px-4 py-2 rounded-full border border-gray-600 hover:border-secondary hover:text-secondary transition-all duration-300">
                 About
               </Link>
-              <Link href="/contact" className="text-sm px-4 py-2 rounded-full border border-gray-600 hover:border-secondary hover:text-secondary transition-all duration-300">
+              <Link
+              title=" Contact"
+              href="/contact" className="text-sm px-4 py-2 rounded-full border border-gray-600 hover:border-secondary hover:text-secondary transition-all duration-300">
                 Contact
               </Link>
-              <Link href="/terms-and-conditions" className="text-sm px-4 py-2 rounded-full border border-gray-600 hover:border-secondary hover:text-secondary transition-all duration-300">
+              <Link
+              title="Terms & Conditions"
+              href="/terms-and-conditions" className="text-sm px-4 py-2 rounded-full border border-gray-600 hover:border-secondary hover:text-secondary transition-all duration-300">
                 Terms & Conditions
               </Link>
-              <Link href="/privacy-policy" className="text-sm px-4 py-2 rounded-full border border-gray-600 hover:border-secondary hover:text-secondary transition-all duration-300">
+              <Link 
+              title="Privacy Policy"
+              href="/privacy-policy" className="text-sm px-4 py-2 rounded-full border border-gray-600 hover:border-secondary hover:text-secondary transition-all duration-300">
                 Privacy Policy
               </Link>
-              <Link href="/sitemap.xml" legacyBehavior>
-                <a onClick={handleClick} className="text-sm px-4 py-2 rounded-full border border-gray-600 hover:border-secondary hover:text-secondary transition-all duration-300">
+              <Link
+               title="Sitemap"
+               href="/sitemap.xml" legacyBehavior>
+                <a title="Sitemap" onClick={handleClick} className="text-sm px-4 py-2 rounded-full border border-gray-600 hover:border-secondary hover:text-secondary transition-all duration-300">
                   Sitemap
                 </a>
               </Link>

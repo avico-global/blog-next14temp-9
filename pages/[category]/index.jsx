@@ -10,13 +10,11 @@ import {
 import GoogleTagManager from "@/lib/GoogleTagManager";
 import JsonLd from "@/components/json/JsonLd";
 import Image from "next/image";
-import FullContainer from "@/components/common/FullContainer";
-import Container from "@/components/common/Container";
+
 import { useRouter } from "next/router";
 import dayjs from "dayjs";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import Breadcrumbs from "@/components/common/Breadcrumbs";
 import useBreadcrumbs from "@/lib/useBreadcrumbs";
 
 // Font
@@ -34,11 +32,9 @@ export default function Categories({
   meta,
   domain,
   categories,
-  about_me,
   contact_details,
   favicon,
   layout,
-  tag_list,
   nav_type,
   footer_type,
 }) {
@@ -216,9 +212,9 @@ export default function Categories({
                                   item.article_category
                                 )}/${sanitizeUrl(item?.title)}`}
                               >
-                                <p className="font-bold text-3xl lg:text-5xl text-start my-4 text-secondary transition-colors">
+                                <h2 className="font-bold text-3xl lg:text-5xl text-start my-4 text-secondary transition-colors">
                                   {item.title}
-                                </p>
+                                </h2>
                               </Link>
                               <div className="flex items-center gap-2 mt-2">
                                 <p className="text-sm  text-gray-400 font-semibold">

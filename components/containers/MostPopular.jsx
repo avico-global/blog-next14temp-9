@@ -79,11 +79,15 @@ function BlogCard({
       </Link>
 
       <div className="p-5 flex flex-col flex-grow gap-y-4 ">
-        <Link className=" flex justify-start "  href={`/${sanitizeUrl(category)}`}>
+        <Link
+        title={category || "Article Category"}
+        className=" flex justify-start "  href={`/${sanitizeUrl(category)}`}>
           <Badge className="mb-2 inline-block text-white  ">{category}</Badge>
         </Link>
         
-        <Link href={href || ""} className="group">
+        <Link 
+        title={title}
+        href={href || ""} className="group">
           <h3 className="font-bold text-4xl lg:text-5xl text-start mb-2 text-secondary transition-colors">
             {title}
           </h3>

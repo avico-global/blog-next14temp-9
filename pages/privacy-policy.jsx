@@ -1,40 +1,63 @@
-import React from "react";
-import {
-  callBackendApi,
-  getDomain,
-  getImagePath,
-  robotsTxt,
-  sanitizeUrl,
-} from "@/lib/myFun";
+import React, { useEffect } from "react";
+import Breadcrumbs from "@/components/common/Breadcrumbs";
+import useBreadcrumbs from "@/lib/useBreadcrumbs";
+import JsonLd from "@/components/json/JsonLd";
+import { useRouter } from "next/router";
+
+import Container from "@/components/common/Container";
+import FullContainer from "@/components/common/FullContainer";
 import Navbar from "@/components/containers/Navbar";
 import Footer from "@/components/containers/Footer";
-import AllArticles from "@/components/AllArticles";
-import Head from "next/head";
-import JsonLd from "@/components/json/JsonLd";
 import GoogleTagManager from "@/lib/GoogleTagManager";
+import MarkdownIt from "markdown-it";
+import { callBackendApi, getDomain, getImagePath } from "@/lib/myFun";
 
-export default function blog({
-  logo,
-  blog_list,
-  imagePath,
+import Head from "next/head";
+
+// Font
+import { Raleway } from "next/font/google";
+const myFont = Raleway({
+  subsets: ["cyrillic", "cyrillic-ext", "latin", "latin-ext"],
+});
+
+export default function PriavcyPolicy({
   categories,
-  domain,
-  meta,
-  contact_details,
-  banner,
+  imagePath,
   favicon,
+  policy,
+  logo,
+  meta,
+  page,
+  domain,
   nav_type,
+  blog_list,
   footer_type,
+  contact_details,
 }) {
+  const markdownIt = new MarkdownIt();
+  const content = markdownIt.render(policy || "");
+  const breadcrumbs = useBreadcrumbs();
+  const router = useRouter();
+  const currentPath = router.pathname;
+
+  useEffect(() => {
+    if (currentPath.includes("%20") || currentPath.includes(" ")) {
+      router.replace("/privacy-policy");
+    }
+  }, [currentPath, router]);
+
   return (
-    <>
+    <div
+      className={`min-h-screen flex flex-col justify-between ${myFont.className}`}
+    >
       <Head>
         <meta charSet="UTF-8" />
         <title>{meta?.title}</title>
         <meta name="description" content={meta?.description} />
         <link rel="author" href={`https://www.${domain}`} />
         <link rel="publisher" href={`https://www.${domain}`} />
-        <link rel="canonical" href={`https://www.${domain}`} />
+        <link rel="canonical" href={`https://www.${domain}/privacy-policy`} />
+        {/* <meta name="robots" content="noindex" /> */}
         <meta name="theme-color" content="#008DE5" />
         <link rel="manifest" href="/manifest.json" />
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
@@ -62,6 +85,7 @@ export default function blog({
           href={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${favicon}`}
         />
       </Head>
+
       <Navbar
         logo={logo}
         imagePath={imagePath}
@@ -71,18 +95,16 @@ export default function blog({
         contact_details={contact_details}
       />
 
-      <h1 className=" text-white text-6xl  font-bold text-center pt-44">
-        Blogs
-      </h1>
-
-      <AllArticles
-        className=" pt-12 px-4 mb-6 "
-        articles={blog_list}
-        imagePath={imagePath}
-      />
+      <FullContainer className=" mt-36 ">
+        <Container>
+          <div
+            className="prose max-w-full w-full mb-5 prose-invert"
+            dangerouslySetInnerHTML={{ __html: content }}
+          />
+        </Container>
+      </FullContainer>
 
       <Footer
-        logo={logo}
         imagePath={imagePath}
         blog_list={blog_list}
         categories={categories}
@@ -91,62 +113,32 @@ export default function blog({
 
       <JsonLd
         data={{
-          "@context": "https://www.schema.org",
+          "@context": "https://schema.org",
           "@graph": [
             {
-              "@type": "WebSite",
-              "@id": `https://${domain}/`,
-              url: `https://${domain}/`,
+              "@type": "WebPage",
+              "@id": `https://${domain}/privacy-policy`,
+              url: `https://${domain}/privacy-policy`,
               name: meta?.title,
+              description: meta?.description,
               isPartOf: {
                 "@id": `https://${domain}`,
               },
-              description: meta?.description,
               inLanguage: "en-US",
-              primaryImageOfPage: {
-                "@type": "ImageObject",
-                url: `${imagePath}/${banner?.file_name}`,
-                width: 1920,
-                height: 1080,
-              },
             },
             {
-              "@type": "Organization",
-              "@id": `https://${domain}`,
-              name: domain,
-              url: `https://${domain}`,
-              logo: {
-                "@type": "ImageObject",
-                url: `${imagePath}/${logo.file_name}`,
-                width: logo.width,
-                height: logo.height,
-              },
-              sameAs: [
-                "https://www.facebook.com",
-                "https://www.twitter.com",
-                "https://instagram.com",
-              ],
-            },
-            {
-              "@type": "ItemList",
-              url: `https://${domain}`,
-              name: "blog",
-              itemListElement: blog_list?.map((blog, index) => ({
+              "@type": "BreadcrumbList",
+              itemListElement: breadcrumbs.map((breadcrumb, index) => ({
                 "@type": "ListItem",
                 position: index + 1,
-                item: {
-                  "@type": "Article",
-                  url: `https://${domain}/${sanitizeUrl(
-                    blog?.article_category
-                  )}/${sanitizeUrl(blog?.title)}`,
-                  name: blog?.title,
-                },
+                name: breadcrumb.label,
+                item: `https://${domain}${breadcrumb.url}`,
               })),
             },
           ],
         }}
       />
-    </>
+    </div>
   );
 }
 
@@ -158,30 +150,27 @@ export async function getServerSideProps({ req }) {
     type: "layout",
   });
 
+  const meta = await callBackendApi({ domain, type: "meta_privacy" });
   const logo = await callBackendApi({ domain, type: "logo" });
-  const meta = await callBackendApi({ domain, type: "meta_home" });
   const favicon = await callBackendApi({ domain, type: "favicon" });
   const blog_list = await callBackendApi({ domain, type: "blog_list" });
-  const categories = await callBackendApi({ domain, type: "categories" });
-
+  const categories = await callBackendApi({
+    domain,
+    type: "categories",
+  });
   const contact_details = await callBackendApi({
     domain,
     type: "contact_details",
   });
-
-  const project_id = logo?.data[0]?.project_id || null;
-  const about_me = await callBackendApi({ domain, type: "about_me" });
-  const tag_list = await callBackendApi({ domain, type: "tag_list" });
+  const terms = await callBackendApi({ domain, type: "terms" });
+  const policy = await callBackendApi({ domain, type: "policy" });
   const nav_type = await callBackendApi({ domain, type: "nav_type" });
   const footer_type = await callBackendApi({ domain, type: "footer_type" });
-  const copyright = await callBackendApi({ domain, type: "copyright" });
-  const banner = await callBackendApi({ domain, type: "banner" });
-  const imagePath = await getImagePath(project_id, domain);
 
   let page = null;
   if (Array.isArray(layoutPages?.data) && layoutPages.data.length > 0) {
     const valueData = layoutPages.data[0].value;
-    page = valueData?.find((page) => page.page === "home");
+    page = valueData?.find((page) => page.page === "privacy policy");
   }
 
   if (!page?.enable) {
@@ -190,25 +179,25 @@ export async function getServerSideProps({ req }) {
     };
   }
 
-  robotsTxt({ domain });
+  let project_id = logo?.data[0]?.project_id || null;
+  let imagePath = null;
+  imagePath = await getImagePath(project_id, domain);
 
   return {
     props: {
-      page,
       domain,
       imagePath,
-      logo: logo?.data[0] || null,
-      banner: banner?.data[0] || null,
-      meta: meta?.data[0]?.value || null,
-      about_me: about_me?.data[0] || null,
-      nav_type: nav_type?.data[0]?.value || null,
-      tag_list: tag_list?.data[0]?.value || null,
-      blog_list: blog_list?.data[0]?.value || [],
-      copyright: copyright?.data[0]?.value || null,
       favicon: favicon?.data[0]?.file_name || null,
+      logo: logo?.data[0] || null,
+      blog_list: blog_list?.data[0]?.value || [],
       categories: categories?.data[0]?.value || null,
-      footer_type: footer_type?.data[0]?.value || {},
+      meta: meta?.data[0]?.value || null,
       contact_details: contact_details?.data[0]?.value || null,
+      terms: terms?.data[0]?.value || "",
+      policy: policy?.data[0]?.value || "",
+      nav_type: nav_type?.data[0]?.value || {},
+      footer_type: footer_type?.data[0]?.value || {},
+      page,
     },
   };
 }

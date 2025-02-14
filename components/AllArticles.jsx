@@ -5,7 +5,12 @@ import Image from "next/image";
 import { sanitizeUrl } from "@/lib/myFun";
 import { Badge } from "./ui/badge";
 
-export default function AllArticles({ articles, imagePath, heading , className = "px-3 md:px-9 mb-8" }) {
+export default function AllArticles({
+  articles,
+  imagePath,
+  heading,
+  className = "px-3 md:px-9 mb-8",
+}) {
   const [displayCount, setDisplayCount] = React.useState(9);
 
   const showMoreArticles = () => {
@@ -31,7 +36,9 @@ export default function AllArticles({ articles, imagePath, heading , className =
             >
               <div className="relative overflow-hidden h-[400px]">
                 <Link
-                  href={`/${sanitizeUrl(item.article_category)}/${sanitizeUrl(item?.title)}`}
+                  href={`/${sanitizeUrl(item.article_category)}/${sanitizeUrl(
+                    item?.title
+                  )}`}
                   title={item.title}
                   className="block relative h-full"
                 >
@@ -45,14 +52,16 @@ export default function AllArticles({ articles, imagePath, heading , className =
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent opacity-90 group-hover:opacity-75 transition-opacity duration-300" />
                 </Link>
-                
+
                 <div className="absolute bottom-0 p-6 space-y-3 w-full transform transition-transform duration-300 group-hover:translate-y-[-8px]">
                   <Badge className="mb-2 inline-block text-white bg-secondary hover:bg-secondary/90 transition-colors px-4 py-1 text-sm font-medium rounded-full shadow-lg">
                     {item?.article_category}
                   </Badge>
-                  
+
                   <Link
-                    href={`/${sanitizeUrl(item.article_category)}/${sanitizeUrl(item?.title)}`}
+                    href={`/${sanitizeUrl(item.article_category)}/${sanitizeUrl(
+                      item?.title
+                    )}`}
                     title={item.title}
                     className="block font-bold text-2xl leading-tight text-secondary  transition-colors duration-300"
                   >

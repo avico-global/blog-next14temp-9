@@ -74,6 +74,7 @@ function BlogCard({
     <div className="group hover:bg-white/10 rounded-lg backdrop-blur-sm p-5 transition-all duration-300">
       <div className="flex flex-col space-y-3">
         <Link
+          title={article_category || "Article Category"}
           href={`/${sanitizeUrl(article_category)}`}
           className="text-white/80 text-sm font-semibold uppercase tracking-wider hover:text-white transition-colors"
         >
@@ -81,6 +82,7 @@ function BlogCard({
         </Link>
 
         <Link
+         title={title || "Article Category"}
           href={href || ""}
           className="text-xl md:text-2xl font-bold text-white decoration-2 underline-offset-2 line-clamp-2"
         >

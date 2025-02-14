@@ -4,12 +4,10 @@ import Link from "next/link";
 import Image from "next/image";
 import { sanitizeUrl } from "@/lib/myFun";
 import { Menu, Search, X } from "lucide-react";
-import Container from "@/components/common/Container";
-import FullContainer from "@/components/common/FullContainer";
+
 
 export default function Navbar({
   logo,
-  logoText,
   categories,
   imagePath,
   handleSearchToggle,
@@ -101,6 +99,7 @@ export default function Navbar({
                 <div className="absolute left-0 top-full bg-black shadow-xl rounded-md z-50 p-4 w-[500px] grid  gap-4">
                   {categories.map((category, index) => (
                     <Link
+                    title={category.title || "ARticle Category"}
                       key={index}
                       href={`/${encodeURI(sanitizeUrl(category.title))}`}
                       className="hover:bg-secondary rounded-xl transition-all duration-300"
@@ -109,6 +108,7 @@ export default function Navbar({
                         <Image
                           src={`${imagePath}/${category.image}`}
                           alt={category.title}
+                          title={category.title}
                           width={60}
                           height={100}
                           className="rounded-md h-14 object-cover"
@@ -224,6 +224,7 @@ export default function Navbar({
                             item?.altText ||
                             "Article Thumbnail"
                           }
+                          title={item.title}
                           fill
                           className="object-cover group-hover:scale-110 transition-transform duration-300"
                         />
@@ -263,6 +264,7 @@ export default function Navbar({
                 <div className="relative bg-black/50 rounded-md mt-2 p-4 w-full grid grid-cols-1 gap-4">
                   {categories.map((category, index) => (
                     <Link
+                    title={category.title || "Article Category" }
                       key={index}
                       href={`/${encodeURI(sanitizeUrl(category.title))}`}
                     >
