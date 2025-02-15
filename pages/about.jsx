@@ -150,7 +150,7 @@ export default function About({
           "@context": "https://schema.org",
           "@graph": [
             {
-              "@type": "WebSite",
+              "@type": "WebPage",
               "@id": `http://${domain}/#website`,
               url: `http://${domain}/`,
               name: domain,

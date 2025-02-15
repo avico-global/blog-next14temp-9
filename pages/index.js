@@ -15,6 +15,7 @@ import AllArticles from "@/components/AllArticles";
 import Categories from "@/components/Categories";
 import Link from "next/link";
 import Head from "next/head";
+import JsonLd from "@/components/json/JsonLd";
 
 export default function index({
   logo,
@@ -117,6 +118,64 @@ export default function index({
         blog_list={blog_list}
         categories={categories}
         footer_type={footer_type}
+      />
+
+      <JsonLd
+        data={{
+          "@context": "https://www.schema.org",
+          "@graph": [
+            {
+              "@type": "WebSite",
+              "@id": `https://${domain}/`,
+              url: `https://${domain}/`,
+              name: meta?.title,
+              isPartOf: {
+                "@id": `https://${domain}`,
+              },
+              description: meta?.description,
+              inLanguage: "en-US",
+              primaryImageOfPage: {
+                "@type": "ImageObject",
+                url: `${imagePath}/${banner?.file_name}`,
+                width: 1920,
+                height: 1080,
+              },
+            },
+            {
+              "@type": "Organization",
+              "@id": `https://${domain}`,
+              name: domain,
+              url: `https://${domain}`,
+              logo: {
+                "@type": "ImageObject",
+                url: `${imagePath}/${logo.file_name}`,
+                width: logo.width,
+                height: logo.height,
+              },
+              sameAs: [
+                "https://www.facebook.com",
+                "https://www.twitter.com",
+                "https://instagram.com",
+              ],
+            },
+            {
+              "@type": "ItemList",
+              url: `https://${domain}`,
+              name: "blog",
+              itemListElement: blog_list?.map((blog, index) => ({
+                "@type": "ListItem",
+                position: index + 1,
+                item: {
+                  "@type": "Article",
+                  url: `https://${domain}/${sanitizeUrl(
+                    blog?.article_category
+                  )}/${sanitizeUrl(blog?.title)}`,
+                  name: blog?.title,
+                },
+              })),
+            },
+          ],
+        }}
       />
     </>
   );

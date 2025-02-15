@@ -94,7 +94,7 @@ export default function blog({
           "@context": "https://www.schema.org",
           "@graph": [
             {
-              "@type": "WebSite",
+              "@type": "WebPage",
               "@id": `https://${domain}/`,
               url: `https://${domain}/`,
               name: meta?.title,

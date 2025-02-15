@@ -222,7 +222,7 @@ export default function Contact({
           "@context": "https://schema.org",
           "@graph": [
             {
-              "@type": "WebSite",
+              "@type": "WebPage",
               "@id": `http://${domain}/#website`,
               url: `http://${domain}/`,
               name: domain,

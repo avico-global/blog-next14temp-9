@@ -281,7 +281,7 @@ export default function Categories({
               })),
             },
             {
-              "@type": "WebSite",
+              "@type": "WebPage",
               "@id": `http://${domain}/#website`,
               url: `http://${domain}/`,
               name: domain,
