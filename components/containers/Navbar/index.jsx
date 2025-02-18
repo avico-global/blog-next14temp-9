@@ -5,22 +5,20 @@ import Image from "next/image";
 import { sanitizeUrl } from "@/lib/myFun";
 import { Menu, Search, X } from "lucide-react";
 
-
 export default function Navbar({
   logo,
   categories,
   imagePath,
-  handleSearchToggle,
-  handleSearchChange,
-  filteredBlogs,
-  searchQuery,
-  openSearch,
   blog_list,
   searchContainerRef,
 }) {
   const [sidebar, setSidebar] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [openSearch, setOpenSearch] = useState(false);
+  const [filteredBlogs, setFilteredBlogs] = useState([]);
   const sidebarRef = useRef(null);
+  const searchRef = useRef(null);
 
   // Add this useEffect to handle window resize
   useEffect(() => {
@@ -59,12 +57,51 @@ export default function Navbar({
     };
   }, [sidebar]);
 
+  // Update search handler functions to use props
+  const handleSearchToggle = () => {
+    setOpenSearch(!openSearch);
+    setSearchQuery("");
+    setFilteredBlogs([]);
+  };
+
+  const handleSearchChange = (e) => {
+    const query = e.target.value;
+    setSearchQuery(query);
+
+    if (query.trim() === "") {
+      setFilteredBlogs([]);
+      return;
+    }
+
+    const filtered =
+      blog_list?.filter((blog) =>
+        blog.title.toLowerCase().includes(query.toLowerCase())
+      ) || [];
+    setFilteredBlogs(filtered);
+  };
+
+  // Add click outside handler for search
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (searchRef.current && !searchRef.current.contains(event.target)) {
+        setOpenSearch(false);
+        setSearchQuery("");
+        setFilteredBlogs([]);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
     <>
       <div className="w-full absolute top-0 left-0 z-50 text-white shadow-sm my-4">
         <div className="flex items-center justify-between gap-3 mx-auto pt-6 pb-6 px-20 max-w-full">
           <div className="">
-            <Logo logo={logo} imagePath={imagePath}  />
+            <Logo logo={logo} imagePath={imagePath} />
           </div>
 
           {/* Main Nav Links */}
@@ -99,7 +136,7 @@ export default function Navbar({
                 <div className="absolute left-0 top-full bg-black shadow-xl rounded-md z-50 p-4 w-[500px] grid  gap-4">
                   {categories.map((category, index) => (
                     <Link
-                    title={category.title || "ARticle Category"}
+                      title={category.title || "ARticle Category"}
                       key={index}
                       href={`/${encodeURI(sanitizeUrl(category.title))}`}
                       className="hover:bg-secondary rounded-xl transition-all duration-300"
@@ -136,7 +173,7 @@ export default function Navbar({
             {/* Search Section */}
             <div
               className="flex items-center justify-end gap-3 text-gray-500 relative"
-              ref={searchContainerRef}
+              ref={searchRef}
             >
               <div className="flex items-center justify-end gap-2">
                 <Search
@@ -145,27 +182,36 @@ export default function Navbar({
                 />
               </div>
               {openSearch && (
-                <div className="absolute top-full right-0 bg-white shadow-2xl rounded-md mt-1 z-10 w-[calc(100vw-40px)] lg:w-[650px]">
+                <div className="fixed lg:absolute top-16 lg:right-0 lg:ml-auto w-full lg:w-fit flex flex-col items-start justify-center lg:justify-end left-0">
                   <input
                     type="text"
                     value={searchQuery}
                     onChange={handleSearchChange}
-                    className="w-full border border-gray-300 rounded-t-md p-3 focus:outline-none"
+                    className="lg:text-xl border border-gray-300 inputField rounded-md outline-none bg-white shadow-xl p-2 px-3 mx-auto transition-opacity duration-300 ease-in-out opacity-100 w-5/6 lg:w-[650px] focus:ring-2 "
                     placeholder="Search..."
+                    autoFocus
                   />
                   {searchQuery && (
-                    <div className="max-h-[400px] overflow-y-auto">
-                      {filteredBlogs?.map((item, index) => (
-                        <Link
-                          title={item.title}
-                          key={index}
-                          href={`/${item.article_category.name}/${item.key}`}
-                        >
-                          <div className="p-3 hover:bg-gray-100 border-b text-gray-600">
-                            {item.title}
-                          </div>
-                        </Link>
-                      ))}
+                    <div className="lg:absolute top-full p-1 lg:p-3 right-0 bg-white shadow-2xl rounded-md mt-1 z-10 mx-auto w-5/6 lg:w-[650px]">
+                      {filteredBlogs?.length > 0 ? (
+                        filteredBlogs.map((item, index) => (
+                          <Link
+                            key={index}
+                            title={item.title}
+                            href={`/${sanitizeUrl(
+                              item.article_category
+                            )}/${sanitizeUrl(item?.title)}`}
+                          >
+                            <div className="p-2 hover:bg-gray-200 border-b text-gray-600">
+                              {item.title}
+                            </div>
+                          </Link>
+                        ))
+                      ) : (
+                        <div className="p-2 text-gray-600">
+                          No articles found.
+                        </div>
+                      )}
                     </div>
                   )}
                 </div>
@@ -264,7 +310,7 @@ export default function Navbar({
                 <div className="relative bg-black/50 rounded-md mt-2 p-4 w-full grid grid-cols-1 gap-4">
                   {categories.map((category, index) => (
                     <Link
-                    title={category.title || "Article Category" }
+                      title={category.title || "Article Category"}
                       key={index}
                       href={`/${encodeURI(sanitizeUrl(category.title))}`}
                     >
