@@ -7,7 +7,7 @@ import FullContainer from "../../common/FullContainer";
 
 export default function Banner({ image, data, blog_list, imagePath }) {
   return (
-    <div className="relative min-h-screen overflow-hidden">
+    <div className="relative min-h-[60svh] md:min-h-[100svh] overflow-hidden">
       <Image
         src={image}
         title={data.imageTitle || data.title || "Banner"}
@@ -21,9 +21,9 @@ export default function Banner({ image, data, blog_list, imagePath }) {
                100vw"
       />
 
-      <div className="relative z-10 flex flex-col min-h-screen">
-        <div className="flex-1 flex flex-col justify-center px-4 md:px-8 lg:px-20 space-y-6">
-          <h1 className="font-bold capitalize text-4xl md:text-5xl lg:text-6xl xl:text-7xl text-white max-w-5xl leading-tight">
+      <div className="relative z-10 flex flex-col min-h-[60svh] md:min-h-[100svh]">
+        <div className="flex-1 flex flex-col justify-center px-4 md:px-8 lg:px-20 ">
+          <h1 className="font-bold capitalize text-4xl -mt-16 md:-mt-40 md:text-5xl lg:text-6xl xl:text-7xl text-white max-w-5xl leading-tight">
             {data.title}
           </h1>
           {data.tagline && (
