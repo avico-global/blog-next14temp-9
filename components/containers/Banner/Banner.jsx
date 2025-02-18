@@ -22,7 +22,7 @@ export default function Banner({ image, data, blog_list, imagePath }) {
       />
 
       <div className="relative z-10 flex flex-col min-h-[60svh] md:min-h-[100svh]">
-        <div className="flex-1 flex flex-col justify-center px-4 md:px-8 lg:px-20 ">
+        <div className="flex-1 flex flex-col justify-center items-center text-center px-4 md:px-8 lg:px-20 ">
           <h1 className="font-bold capitalize text-4xl -mt-16 md:-mt-40 md:text-5xl lg:text-6xl xl:text-7xl text-white max-w-5xl leading-tight">
             {data.title}
           </h1>
