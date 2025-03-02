@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import Head from "next/head";
-import Footer from "@/components/containers/Footer";
 import {
   callBackendApi,
   getDomain,
@@ -19,13 +18,16 @@ import useBreadcrumbs from "@/lib/useBreadcrumbs";
 
 // Font
 import { Raleway } from "next/font/google";
-import { Badge } from "@/components/ui/badge";
+import { motion } from "framer-motion";
+import { Calendar, User, ArrowRight, Hash, Bookmark } from "lucide-react";
 import Navbar from "@/components/containers/Navbar";
+import Footer from "@/components/containers/Footer";
+
 const myFont = Raleway({
   subsets: ["cyrillic", "cyrillic-ext", "latin", "latin-ext"],
 });
 
-export default function Categories({
+export default function Category({
   logo,
   blog_list,
   imagePath,
@@ -60,7 +62,7 @@ export default function Categories({
     }
 
     if (currentPath.includes("contact-us")) {
-      router.replace("/contact");
+      router.replace("/contact-us");
     }
     if (currentPath.includes("about-us")) {
       router.replace("/about");
@@ -68,6 +70,21 @@ export default function Categories({
   }, [category, router]);
 
   const page = layout?.find((page) => page.page === "category");
+
+  // Find the current category object
+  const currentCategory = categories?.find(
+    (cat) => sanitizeUrl(cat.title) === sanitizeUrl(category)
+  );
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+      },
+    },
+  };
 
   return (
     <div className={cn(myFont.className, "flex flex-col min-h-screen")}>
@@ -118,154 +135,93 @@ export default function Categories({
         />
       </Head>
 
-      {page?.enable
-        ? page?.sections?.map((item, index) => {
-            if (!item.enable) return null;
-            switch (item.section?.toLowerCase()) {
-              case "navbar":
-                return (
-                  <Navbar
-                    key={index}
-                    logo={logo}
-                    nav_type={nav_type}
-                    category={category}
-                    imagePath={imagePath}
-                    blog_list={blog_list}
-                    categories={categories}
-                    contact_details={contact_details}
-                  />
-                );
+      <Navbar
+        logo={logo}
+        imagePath={imagePath}
+        blog_list={blog_list}
+        categories={categories}
+      />
 
-              case "search result":
-                return (
-                  <div
-                    key={index}
-                    className="mb-12 mt-52 px-4 mx-auto max-w-[1500px] "
-                  >
-                    <div className="grid  gap-12 w-full">
-                      <div>
-                        <p className="text-secondary font-bold">
-                          You are viewing
-                        </p>
-                        <h1 className="text-5xl text-white font-bold   capitalize  py-1 mb-7 w-full">
-                          {category?.replaceAll("-", " ")}
-                        </h1>
+      <div className="min-h-screen bg-black">
+        {/* Hero Section */}
+        <section className="relative min-h-[40vh] pt-10 flex items-center justify-center overflow-hidden">
+          {/* Background Image */}
+          <div className="absolute inset-0">
+            <Image
+              src={`${imagePath}/${currentCategory?.image}`}
+              alt={currentCategory?.title || "Category"}
+              fill
+              className="object-cover"
+              priority
+            />
+            <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" />
+          </div>
 
-                        <div className=" flex flex-col lg:flex-row gap-3 lg:gap-6 mb-10">
-                          {categories?.map((item, index) => (
-                            <Link
-                              key={index}
-                              title={item?.title || "Article Link"}
-                              href={`/${sanitizeUrl(item.title)}`}
-                              className={cn(
-                                "uppercase text-lg font-bold text-white hover:border-b transition-all",
-                                category === item.title && "text-secondary"
-                              )}
-                            >
-                              {item.title}
-                            </Link>
-                          ))}
-                        </div>
+          {/* Content */}
+          <div className="relative z-10 text-center px-4 py-20">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+            >
+              <div className="flex items-center justify-center gap-2 mb-4">
+                <Hash className="w-6 h-6 text-secondary" />
+                <span className="text-secondary font-medium">Category</span>
+              </div>
+              <h1
+                className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 
+                           bg-gradient-to-r from-white via-white to-secondary/80 bg-clip-text text-transparent"
+              >
+                {currentCategory?.title}
+              </h1>
+              <p className="text-white/70 max-w-2xl mx-auto text-lg">
+                {currentCategory?.description ||
+                  `Explore all articles in ${currentCategory?.title} category`}
+              </p>
+            </motion.div>
+          </div>
+        </section>
 
-                        {filteredBlogList?.length > 0 ? (
-                          ""
-                        ) : (
-                          <div className="flex items-center justify-center border px-10 py-40 text-lg bg-gray-200">
-                            No articles found related to {category}
-                          </div>
-                        )}
-                        <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-8 ">
-                          {filteredBlogList.map((item, index) => (
-                            <div key={index}>
-                              <Link
-                                title={item?.title || "Article Link"}
-                                href={`/${sanitizeUrl(
-                                  item.article_category
-                                )}/${sanitizeUrl(item?.title)}`}
-                              >
-                                <div className="overflow-hidden relative min-h-40 rounded lg:min-h-52 w-full bg-black flex-1">
-                                  <Image
-                                    title={item?.title || item.imageTitle}
-                                    src={
-                                      item.image
-                                        ? `${imagePath}/${item.image}`
-                                        : "/no-image.png"
-                                    }
-                                    fill={true}
-                                    loading="lazy"
-                                    alt="blog"
-                                    className="w-full h-full object-cover top-0 hover:scale-125 transition-all"
-                                  />
-                                </div>
-                              </Link>
-                              <Link
-                                className=" flex justify-start "
-                                href={`/${sanitizeUrl(category)}`}
-                              >
-                                <Badge className="mt-4 inline-block text-white  ">
-                                  {category}
-                                </Badge>
-                              </Link>
-                              <Link
-                                title={item?.title || "Article Link"}
-                                href={`/${sanitizeUrl(
-                                  item.article_category
-                                )}/${sanitizeUrl(item?.title)}`}
-                              >
-                                <h2 className="font-bold text-3xl lg:text-5xl text-start my-4 text-secondary transition-colors">
-                                  {item.title}
-                                </h2>
-                              </Link>
-                              <div className="flex items-center gap-2 mt-2">
-                                <p className="text-sm  text-gray-400 font-semibold">
-                                  <span className="text-gray-200 text-sm">
-                                    By
-                                  </span>
-                                  : {item.author}
-                                </p>
-                                <span className="text-gray-400">--</span>
-                                <p className="text-sm text-gray-200 font-semibold">
-                                  {dayjs(item?.published_at)?.format(
-                                    "MMM D, YYYY"
-                                  )}
-                                </p>
-                              </div>
-                              <p className="text-gray-200 mt-4 mb-12">
-                                {item.tagline}
-                              </p>
+        {/* Articles Section */}
+        <section className="relative py-20 bg-gradient-to-b from-black to-black/95">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            {/* Section Header */}
+            <div className="flex items-center justify-between mb-12">
+              <div className="flex items-center gap-3">
+                <Bookmark className="w-6 h-6 text-secondary" />
+                <h2 className="text-2xl font-bold text-white">
+                  Latest Articles
+                </h2>
+              </div>
+              <div className="text-white/60">{blog_list?.length} Articles</div>
+            </div>
 
-                              <Link
-                                href={`/${sanitizeUrl(category)}/${sanitizeUrl(
-                                  item?.title
-                                )}`}
-                                className="  font-bold text-secondary border-2 border-secondary  rounded-full p-6 hover:bg-secondary hover:text-white "
-                              >
-                                Continue Reading
-                              </Link>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                );
-              case "footer":
-                return (
-                  <Footer
-                    logo={logo}
-                    key={index}
-                    imagePath={imagePath}
-                    blog_list={blog_list}
-                    categories={categories}
-                    category={category}
-                    footer_type={footer_type}
-                  />
-                );
-              default:
-                return null;
-            }
-          })
-        : "Page Disabled, under maintenance"}
+            {/* Articles Grid */}
+            <motion.div
+              variants={containerVariants}
+              initial="hidden"
+              animate="visible"
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+            >
+              {blog_list?.map((blog, index) => (
+                <ArticleCard
+                  key={index}
+                  blog={blog}
+                  imagePath={imagePath}
+                  index={index}
+                />
+              ))}
+            </motion.div>
+          </div>
+        </section>
+      </div>
+
+      <Footer
+        logo={logo}
+        imagePath={imagePath}
+        blog_list={blog_list}
+        categories={categories}
+      />
 
       <JsonLd
         data={{
@@ -315,6 +271,104 @@ export default function Categories({
   );
 }
 
+function ArticleCard({ blog, imagePath, index }) {
+  const cardVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.5,
+        delay: index * 0.1,
+      },
+    },
+  };
+
+  return (
+    <motion.article
+      variants={cardVariants}
+      className="group relative bg-gradient-to-br from-white/5 via-white/[0.02] to-transparent 
+                rounded-2xl overflow-hidden backdrop-blur-sm border border-white/10 
+                hover:border-white/20 transition-all duration-500"
+    >
+      {/* Image Container */}
+      <div className="relative h-56 overflow-hidden">
+        <Image
+          src={`${imagePath}/${blog.image}`}
+          alt={blog.title}
+          fill={true}
+          className="object-cover group-hover:scale-110 transition-transform duration-700"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent" />
+
+        {/* Title Overlay */}
+        <div className="absolute bottom-0 left-0 right-0 p-6">
+          <Link
+            href={`/blog/${sanitizeUrl(blog.article_category)}/${sanitizeUrl(
+              blog.title
+            )}`}
+            className="block"
+          >
+            <h3
+              className="text-xl font-semibold text-white group-hover:text-secondary 
+                         transition-colors duration-300 line-clamp-2"
+            >
+              {blog.title}
+            </h3>
+          </Link>
+        </div>
+      </div>
+
+      {/* Content */}
+      <div className="p-6 pt-4">
+        <p className="text-white/60 text-sm line-clamp-2 mb-6">
+          {blog.description || blog.tagline}
+        </p>
+
+        {/* Metadata and Action */}
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-4 text-xs text-white/60">
+            {blog.author && (
+              <div className="flex items-center gap-1.5">
+                <User className="w-3 h-3" />
+                <span className="line-clamp-1">{blog.author}</span>
+              </div>
+            )}
+            {blog.date && (
+              <div className="flex items-center gap-1.5">
+                <Calendar className="w-3 h-3" />
+                <time>{blog.date}</time>
+              </div>
+            )}
+          </div>
+
+          <Link
+            href={`/blog/${sanitizeUrl(blog.article_category)}/${sanitizeUrl(
+              blog.title
+            )}`}
+            className="flex items-center gap-1 text-secondary text-sm font-medium
+                     group-hover:gap-2 transition-all duration-300 
+                     hover:text-secondary/80"
+          >
+            <span>Read</span>
+            <ArrowRight className="w-4 h-4" />
+          </Link>
+        </div>
+      </div>
+
+      {/* Hover Effects */}
+      <div
+        className="absolute inset-0 bg-gradient-to-t from-secondary/10 via-transparent to-transparent 
+                    opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+      />
+      <div
+        className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-secondary/10 
+                    opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+      />
+    </motion.article>
+  );
+}
+
 export async function getServerSideProps({ req, query }) {
   const domain = getDomain(req?.headers?.host);
   const { category } = query;
@@ -357,10 +411,14 @@ export async function getServerSideProps({ req, query }) {
   let project_id = logo?.data[0]?.project_id || null;
   let imagePath = await getImagePath(project_id, domain);
 
-  const categoryExists = categories?.data[0]?.value?.some(
-    (cat) =>
-      cat?.title?.toLowerCase() === category?.replaceAll("-", " ").toLowerCase()
-  );
+  console.log("Current category:", category);
+  console.log("All categories:", categories?.data[0]?.value);
+
+  const categoryExists = categories?.data[0]?.value?.some((cat) => {
+    return sanitizeUrl(cat?.title) === sanitizeUrl(category);
+  });
+
+  console.log("Category exists:", categoryExists);
 
   if (!categoryExists) {
     return {

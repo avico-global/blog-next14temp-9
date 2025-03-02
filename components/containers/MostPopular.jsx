@@ -1,119 +1,154 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Badge } from "../ui/badge";
-import Container from "../common/Container";
-import FullContainer from "../common/FullContainer";
 import { sanitizeUrl } from "@/lib/myFun";
+import { motion } from "framer-motion";
+import { Calendar, User, ArrowRight, TrendingUp } from "lucide-react";
 
-export default function MostPopular({ blog_list = [], imagePath }) {
+export default function MostPopular({ blog_list, imagePath }) {
   const popularBlogs = blog_list.filter((item) => item.isPopular);
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2,
+      },
+    },
+  };
 
   return (
-    popularBlogs?.length > 0 && (
-      <div className="py-16 text-center bg-primary ">
-        <div className="px-3 py-9 md:px-9">
-          <h3 className=" text-gray-400 text-lg " >Exploring the Frontiers of Technology</h3>
-          <h2 className="font-bold text-4xl lg:text-6xl  text-white px-6">
-            Most Popular
-          </h2>
-          <p className=" text-gray-400  lg:mx-96 mt-6" >Welcome to our Tech blog, your go-to destination for exploring the frontiers of technology. Here, we dive deep into the latest advancements, trends, and innovations across various tech domains, keeping you informed and inspired</p>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full mt-11 mb-3">
-            {popularBlogs.map((item, index) => (
-              <BlogCard
-                key={item.id || index}
-                title={item.title}
-                author={item.author}
-                date={item.published_at}
-                tagline={item.tagline}
-                description={item.articleContent}
-                image={`${imagePath}/${item.image || "no-image.png"}`}
-                href={
-                  `/${sanitizeUrl(item.article_category)}/${sanitizeUrl(
-                    item?.title
-                  )}` || "#"
-                }
-                category={item.article_category}
-                imageTitle={item.imageTitle}
-                altImage={item.altImage}
-              />
-            ))}
-          </div>
-        </div>
+    <section className="relative py-20 bg-gradient-to-b from-black via-black/95 to-black">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Section Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="flex items-center gap-3 mb-12"
+        >
+          <TrendingUp className="w-6 h-6 text-secondary" />
+          <h2 className="text-3xl font-bold text-white">Most Popular</h2>
+        </motion.div>
+
+        {/* Grid Container */}
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+        >
+          {popularBlogs?.slice(0, 6).map((blog, index) => (
+            <PopularCard
+              key={index}
+              blog={blog}
+              imagePath={imagePath}
+              index={index}
+            />
+          ))}
+        </motion.div>
       </div>
-    )
+    </section>
   );
 }
 
-function BlogCard({
-  title,
-  image,
-  href,
-  category,
-  imageTitle = "Article Thumbnail",
-  altImage = "No Thumbnail Found",
-  tagline,
-  description,
-  author,
-  date
-}) {
-  return (
-    <div className="flex flex-col  transition-shadow rounded-lg overflow-hidden">
-      <Link
-        href={href || "#"}
-        title={imageTitle}
-        className="relative overflow-hidden w-full h-[350px]"
-      >
-        <Image
-          src={image}
-          title={imageTitle}
-          alt={altImage || tagline}
-          priority={false}
-          width={298}
-          height={200}
-          loading="lazy"
-          sizes="(max-width: 768px) 100vw, (min-width: 768px) 50vw, 33vw"
-          className="w-full h-full hover:scale-105 transition-transform duration-300"
-          style={{ objectFit: "cover" }}
-        />
-      </Link>
+function PopularCard({ blog, imagePath, index }) {
+  const cardVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.5,
+        delay: index * 0.1,
+      },
+    },
+  };
 
-      <div className="p-5 flex flex-col flex-grow gap-y-4 ">
+  return (
+    <motion.div
+      variants={cardVariants}
+      className="group relative bg-gradient-to-br from-white/5 to-white/[0.02] 
+                rounded-2xl overflow-hidden backdrop-blur-sm border border-white/10 
+                hover:border-white/20 transition-all duration-500"
+    >
+      {/* Image Container */}
+      <div className="relative h-48 overflow-hidden">
+        <Image
+          src={`${imagePath}/${blog.image}`}
+          alt={blog.title}
+          fill={true}
+          className="object-cover group-hover:scale-110 transition-transform duration-500"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
+
+        {/* Category Tag */}
         <Link
-        title={category || "Article Category"}
-        className=" flex justify-start "  href={`/${sanitizeUrl(category)}`}>
-          <Badge className="mb-2 inline-block text-white  ">{category}</Badge>
+          href={`/blog/${sanitizeUrl(blog.article_category)}`}
+          className="absolute top-4 left-4 px-3 py-1 rounded-full text-xs font-medium 
+                   bg-secondary/20 text-secondary hover:bg-secondary/30 backdrop-blur-sm
+                   transition-all duration-300 z-10"
+        >
+          {blog.article_category}
         </Link>
-        
-        <Link 
-        title={title}
-        href={href || ""} className="group">
-          <h3 className="font-bold text-4xl lg:text-5xl text-start mb-2 text-secondary transition-colors">
-            {title}
+      </div>
+
+      {/* Content */}
+      <div className="p-6">
+        <Link
+          href={`/blog/${sanitizeUrl(blog.article_category)}/${sanitizeUrl(
+            blog.title
+          )}`}
+        >
+          <h3
+            className="text-xl font-semibold text-white group-hover:text-secondary 
+                       transition-colors duration-300 line-clamp-2 mb-4"
+          >
+            {blog.title}
           </h3>
         </Link>
 
-        {description && (
-          <p className="text-gray-200  text-start mb-4 line-clamp-2">
-            {description}
-          </p>
-        )}
+        <p className="text-white/60 text-sm line-clamp-2 mb-6">
+          {blog.description || blog.tagline}
+        </p>
 
-        <div className="mt-auto flex items-center text-sm text-gray-200">
-          {author && (
-            <span className="font-medium mr-3">{author}</span>
-          )}
-          {date && (
-            <time className="text-gray-200">
-              {new Date(date).toLocaleDateString('en-US', {
-                month: 'short',
-                day: 'numeric',
-                year: 'numeric'
-              })}
-            </time>
-          )}
+        {/* Metadata */}
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-4 text-xs text-white/60">
+            {blog.author && (
+              <div className="flex items-center gap-1.5">
+                <User className="w-3 h-3" />
+                <span>{blog.author}</span>
+              </div>
+            )}
+            {blog.date && (
+              <div className="flex items-center gap-1.5">
+                <Calendar className="w-3 h-3" />
+                <time>{blog.date}</time>
+              </div>
+            )}
+          </div>
+
+          <Link
+            href={`/blog/${sanitizeUrl(blog.article_category)}/${sanitizeUrl(
+              blog.title
+            )}`}
+            className="flex items-center gap-1 text-secondary text-sm 
+                     group-hover:gap-2 transition-all duration-300"
+          >
+            <span>Read</span>
+            <ArrowRight className="w-4 h-4" />
+          </Link>
         </div>
       </div>
-    </div>
+
+      {/* Hover Overlay */}
+      <div
+        className="absolute inset-0 bg-gradient-to-t from-secondary/20 via-transparent to-transparent 
+                    opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+      />
+    </motion.div>
   );
 }

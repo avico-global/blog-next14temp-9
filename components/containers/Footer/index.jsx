@@ -1,128 +1,171 @@
 import React from "react";
-import FullContainer from "../../common/FullContainer";
-import Container from "../../common/Container";
-import PopularPosts from "../PopularPosts";
-import LatestPosts from "../LatestPosts";
 import Link from "next/link";
-import { cn } from "@/lib/utils";
-import { sanitizeUrl } from "@/lib/myFun";
-import Logo from "@/components/containers/Navbar/Logo";
+import Logo from "../Navbar/Logo";
+import { motion } from "framer-motion";
+import {
+  Facebook,
+  Twitter,
+  Instagram,
+  Linkedin,
+  Mail,
+  Phone,
+  MapPin,
+  ArrowUpRight,
+} from "lucide-react";
 
-export default function Footer({
-  logo,
-  categories,
-  blog_list,
-  imagePath,
-  category,
-}) {
-  const handleClick = (e) => {
-    e.preventDefault();
-    window.location.href = "/sitemap.xml";
-  };
+export default function Footer({ logo, imagePath, categories }) {
+  const currentYear = new Date().getFullYear();
+
+  const socialLinks = [
+    { icon: Facebook, href: "#", label: "Facebook" },
+    { icon: Twitter, href: "#", label: "Twitter" },
+    { icon: Instagram, href: "#", label: "Instagram" },
+    { icon: Linkedin, href: "#", label: "LinkedIn" },
+  ];
+
+  const quickLinks = [
+    { name: "Home", href: "/" },
+    { name: "About", href: "/about" },
+    { name: "Blog", href: "/blog" },
+    { name: "Contact", href: "/contact-us" },
+    { name: "Terms & Conditions", href: "/terms-and-conditions" },
+    { name: "Privacy Policy", href: "/privacy-policy" },
+  ];
+
+  const contactInfo = [
+    {
+      icon: Mail,
+      text: "contact@example.com",
+      href: "mailto:contact@example.com",
+    },
+    { icon: Phone, text: "+1 (555) 123-4567", href: "tel:+15551234567" },
+    { icon: MapPin, text: "123 Street Name, City, Country", href: "#" },
+  ];
 
   return (
-    <div className="bg-primary">
-      <div className="text-white py-20">
-        <div className="flex flex-col items-center mb-16">
-          <div className="mb-10">
-            <Logo logo={logo} imagePath={imagePath} className="mx-auto w-48" />
+    <footer className="relative bg-gradient-to-b from-black to-black/95 pt-20 pb-10">
+      {/* Decorative Elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-secondary/20 rounded-full blur-[128px]" />
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-secondary/10 rounded-full blur-[128px]" />
+      </div>
+
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Main Footer Content */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 mb-16">
+          {/* Brand Section */}
+          <div className="space-y-6 text-white flex flex-col items-start">
+            <Logo logo={logo} imagePath={imagePath} />
+            <p className="text-white/60 text-sm leading-relaxed">
+              Discover the latest insights, tutorials, and trends in the world
+              of technology and development.
+            </p>
+            <div className="flex items-center gap-4">
+              {socialLinks.map((social, index) => {
+                const Icon = social.icon;
+                return (
+                  <motion.a
+                    key={index}
+                    href={social.href}
+                    whileHover={{ scale: 1.1 }}
+                    className="w-10 h-10 rounded-full bg-white/5 hover:bg-white/10 
+                             flex items-center justify-center transition-colors duration-300
+                             text-white/60 hover:text-secondary"
+                    aria-label={social.label}
+                  >
+                    <Icon className="w-5 h-5" />
+                  </motion.a>
+                );
+              })}
+            </div>
           </div>
-          <h3 className="text-xl font-medium text-secondary mb-3">Stay in Loop</h3>
-          <p className="text-4xl md:text-5xl font-bold text-white mb-8 text-center max-w-2xl">
-            Subscribe to our weekly update
-          </p>
-          <div className="w-full max-w-xl px-4">
-            <div className="flex flex-col md:flex-row gap-4 mb-4">
+
+          {/* Quick Links */}
+          <div>
+            <h3 className="text-white font-semibold text-lg mb-6">
+              Quick Links
+            </h3>
+            <ul className="space-y-4">
+              {quickLinks.map((link, index) => (
+                <li key={index}>
+                  <Link
+                    href={link.href}
+                    className="text-white/60 hover:text-secondary flex items-center gap-2 
+                             transition-colors duration-300 group"
+                  >
+                    <span>{link.name}</span>
+                    <ArrowUpRight
+                      className="w-4 h-4 opacity-0 -translate-y-1 translate-x-1 
+                                         group-hover:opacity-100 group-hover:translate-y-0 
+                                         group-hover:translate-x-0 transition-all duration-300"
+                    />
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Categories */}
+          <div>
+            <h3 className="text-white font-semibold text-lg mb-6">
+              Categories
+            </h3>
+            <ul className="space-y-4">
+              {categories?.slice(0, 6).map((category, index) => (
+                <li key={index}>
+                  <Link
+                    href={`/blog/${category.title.toLowerCase()}`}
+                    className="text-white/60 hover:text-secondary flex items-center gap-2 
+                             transition-colors duration-300 group"
+                  >
+                    <span>{category.title}</span>
+                    <ArrowUpRight
+                      className="w-4 h-4 opacity-0 -translate-y-1 translate-x-1 
+                                         group-hover:opacity-100 group-hover:translate-y-0 
+                                         group-hover:translate-x-0 transition-all duration-300"
+                    />
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        {/* Newsletter Section */}
+        <div className="border-t border-white/10 pt-8 pb-12">
+          <div className="max-w-2xl mx-auto text-center">
+            <h3 className="text-white font-semibold text-lg mb-4">
+              Subscribe to Our Newsletter
+            </h3>
+            <p className="text-white/60 text-sm mb-6">
+              Stay updated with our latest articles and tech news.
+            </p>
+            <form className="flex gap-2 max-w-md mx-auto">
               <input
                 type="email"
-                placeholder="Enter email address"
-                className="flex-1 font-medium text-lg px-8 py-4 bg-white/5 border rounded-full border-gray-600 text-white placeholder:text-gray-400 focus:border-secondary transition-colors"
+                placeholder="Enter your email"
+                className="flex-1 bg-white/5 border border-white/10 rounded-lg px-4 py-2
+                         text-white placeholder-white/40 focus:outline-none focus:border-secondary
+                         transition-colors duration-300"
               />
-              <button className="px-8 py-4 rounded-full border-2 border-secondary font-semibold text-lg text-secondary hover:bg-secondary hover:text-white transition-all duration-300">
+              <button
+                type="submit"
+                className="bg-secondary hover:bg-secondary/80 text-white px-6 py-2 rounded-lg
+                         transition-colors duration-300 font-medium"
+              >
                 Subscribe
               </button>
-            </div>
-            <div className="flex items-center gap-3 justify-center ">
-              <input
-                type="checkbox"
-                id="privacy-policy"
-                className="w-6 bg-transparent h-6 accent-secondary translate-y-[1px]"
-              />
-              <label htmlFor="privacy-policy" className="text-normal text-white flex items-center">
-                I have read and agree to the{" "}
-                <Link 
-                title="Privacy Policy"
-                href="/privacy-policy" className="text-secondary hover:text-secondary/80 hover:underline transition-colors ml-1">
-                  Privacy Policy
-                </Link>
-              </label>
-            </div>
+            </form>
           </div>
         </div>
 
-        <div className="flex flex-col  justify-center gap-16  mb-16">
-          <div className="flex flex-col items-center">
-            <p className="font-bold text-lg mb-6 text-secondary">Categories</p>
-            <div className="flex flex-wrap gap-4 justify-center max-w-xl">
-              {categories?.map((item, index) => (
-                <Link
-                  key={index}
-                  title={item?.title || category || "Article Link"}
-                  href={`/${sanitizeUrl(item.title)}`}
-                  className={cn(
-                    "text-sm px-4 py-2 rounded-full border border-gray-600 hover:border-secondary hover:text-secondary transition-all duration-300",
-                    category === item.title && "text-secondary border-secondary"
-                  )}
-                >
-                  {item.title}
-                </Link>
-              ))}
-            </div>
-          </div>
-
-          <div className="flex flex-col items-center">
-            <p className="font-bold text-lg mb-6 text-secondary">Quick Links</p>
-            <div className="flex flex-wrap gap-4 justify-center">
-              <Link 
-              title="Home"
-              href="/" className="text-sm px-4 py-2 rounded-full border border-gray-600 hover:border-secondary hover:text-secondary transition-all duration-300">
-                Home
-              </Link>
-              <Link
-              title="About"
-              href="/about" className="text-sm px-4 py-2 rounded-full border border-gray-600 hover:border-secondary hover:text-secondary transition-all duration-300">
-                About
-              </Link>
-              <Link
-              title=" Contact"
-              href="/contact" className="text-sm px-4 py-2 rounded-full border border-gray-600 hover:border-secondary hover:text-secondary transition-all duration-300">
-                Contact
-              </Link>
-              <Link
-              title="Terms & Conditions"
-              href="/terms-and-conditions" className="text-sm px-4 py-2 rounded-full border border-gray-600 hover:border-secondary hover:text-secondary transition-all duration-300">
-                Terms & Conditions
-              </Link>
-              <Link 
-              title="Privacy Policy"
-              href="/privacy-policy" className="text-sm px-4 py-2 rounded-full border border-gray-600 hover:border-secondary hover:text-secondary transition-all duration-300">
-                Privacy Policy
-              </Link>
-              <Link
-               title="Sitemap"
-               href="/sitemap.xml" legacyBehavior>
-                <a title="Sitemap" onClick={handleClick} className="text-sm px-4 py-2 rounded-full border border-gray-600 hover:border-secondary hover:text-secondary transition-all duration-300">
-                  Sitemap
-                </a>
-              </Link>
-            </div>
-          </div>
+        {/* Copyright */}
+        <div className="border-t border-white/10 pt-8 text-center">
+          <p className="text-white/40 text-sm">
+            © {currentYear} Your Blog Name. All rights reserved.
+          </p>
         </div>
-
-        <p className="pt-8 mt-8 border-t border-gray-600/50 text-white/70 font-medium text-center text-sm">
-          © Lynx — {new Date().getFullYear()}. All rights reserved. Powered by BuzzBlog.
-        </p>
       </div>
-    </div>
+    </footer>
   );
 }

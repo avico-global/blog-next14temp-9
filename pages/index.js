@@ -83,7 +83,7 @@ export default function index({
         imagePath={imagePath}
       />
 
-      {blog_list?.length > 0 && (
+      {/* {blog_list?.length > 0 && (
         <div className="border-t flex lg:hidden border-white/20 bg-black/30 backdrop-blur-md py-8  bottom-0 w-full">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mx-4 md:mx-8 lg:mx-20">
             {blog_list
@@ -101,12 +101,12 @@ export default function index({
               ))}
           </div>
         </div>
-      )}
+      )} */}
 
       <MostPopular key={index} blog_list={blog_list} imagePath={imagePath} />
       <AllArticles
         heading={"Latest Articles"}
-        articles={blog_list}
+        blog_list={blog_list}
         imagePath={imagePath}
       />
       <Categories categories={categories} imagePath={imagePath} />
