@@ -43,13 +43,13 @@ export default function Banner({ image, data, blog_list, imagePath }) {
       <motion.div
         className="absolute inset-0"
         initial={{ scale: 1.1 }}
-        animate={{ 
+        animate={{
           scale: 1,
-          y: scrollY * 0.5 // This creates the parallax effect
+          y: scrollY * 0.5, // This creates the parallax effect
         }}
-        transition={{ 
+        transition={{
           scale: { duration: 1.5 },
-          y: { type: "spring", stiffness: 100 }
+          y: { type: "spring", stiffness: 100 },
         }}
         style={{ y: scrollY * 0.5 }}
       >
@@ -129,6 +129,7 @@ export default function Banner({ image, data, blog_list, imagePath }) {
                         item.article_category
                       )}/${sanitizeUrl(item?.title)}`}
                       delay={index * 0.2}
+                      title={item.title}
                     />
                   ))}
               </div>
@@ -142,7 +143,7 @@ export default function Banner({ image, data, blog_list, imagePath }) {
 
 function BlogCard({ title, article_category, href, date, author, delay }) {
   return (
-    <Link href={href} className="block">
+    <Link href={href} className="block" title={title}>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}

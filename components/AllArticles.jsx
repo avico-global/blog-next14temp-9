@@ -84,6 +84,7 @@ function ArticleCard({ blog, imagePath, index }) {
       <div className="relative h-56 overflow-hidden">
         <Image
           src={`${imagePath}/${blog.image}`}
+          title={blog.title}
           alt={blog.title}
           fill={true}
           className="object-cover group-hover:scale-110 transition-transform duration-700"
@@ -97,6 +98,7 @@ function ArticleCard({ blog, imagePath, index }) {
                    bg-secondary/20 text-secondary hover:bg-secondary/30 backdrop-blur-sm
                    transition-all duration-300 z-10"
           onClick={(e) => e.stopPropagation()}
+          title={blog.article_category}
         >
           {blog.article_category}
         </Link>
@@ -108,6 +110,7 @@ function ArticleCard({ blog, imagePath, index }) {
               blog.title
             )}`}
             className="block"
+            title={blog.title}
           >
             <h3
               className="text-xl font-semibold text-white group-hover:text-secondary 
@@ -149,6 +152,7 @@ function ArticleCard({ blog, imagePath, index }) {
             className="flex items-center gap-1 text-secondary text-sm font-medium
                      group-hover:gap-2 transition-all duration-300 
                      hover:text-secondary/80"
+                     title={blog.title}
           >
             <span>Read</span>
             <ArrowRight className="w-4 h-4" />

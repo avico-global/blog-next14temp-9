@@ -78,6 +78,7 @@ function PopularCard({ blog, imagePath, index }) {
       <div className="relative h-48 overflow-hidden">
         <Image
           src={`${imagePath}/${blog.image}`}
+          title={blog.title}
           alt={blog.title}
           fill={true}
           className="object-cover group-hover:scale-110 transition-transform duration-500"
@@ -90,6 +91,7 @@ function PopularCard({ blog, imagePath, index }) {
           className="absolute top-4 left-4 px-3 py-1 rounded-full text-xs font-medium 
                    bg-secondary/20 text-secondary hover:bg-secondary/30 backdrop-blur-sm
                    transition-all duration-300 z-10"
+                   title={blog.article_category}
         >
           {blog.article_category}
         </Link>
@@ -101,6 +103,7 @@ function PopularCard({ blog, imagePath, index }) {
           href={`/blog/${sanitizeUrl(blog.article_category)}/${sanitizeUrl(
             blog.title
           )}`}
+          title={blog.title}
         >
           <h3
             className="text-xl font-semibold text-white group-hover:text-secondary 
@@ -137,6 +140,7 @@ function PopularCard({ blog, imagePath, index }) {
             )}`}
             className="flex items-center gap-1 text-secondary text-sm 
                      group-hover:gap-2 transition-all duration-300"
+                     title={blog.title}
           >
             <span>Read</span>
             <ArrowRight className="w-4 h-4" />

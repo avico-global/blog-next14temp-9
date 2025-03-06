@@ -35,9 +35,10 @@ export default function About({
   footer_type,
 }) {
   const markdownIt = new MarkdownIt();
-  const content = about_me?.value && typeof about_me.value === 'string' 
-    ? markdownIt?.render(about_me.value)
-    : '';
+  const content =
+    about_me?.value && typeof about_me.value === "string"
+      ? markdownIt?.render(about_me.value)
+      : "";
 
   const page = layout?.find((page) => page.page === "about");
 
@@ -47,6 +48,8 @@ export default function About({
   }, [blog_list]);
 
   const breadcrumbs = useBreadcrumbs();
+
+  console.log("ABout Image", about_me?.file_name);
 
   return (
     <div className={myFont.className}>
@@ -120,10 +123,9 @@ export default function About({
                     <Container className="pb-16 pt-8">
                       <div className="grid grid-cols-about gap-16 w-full">
                         <div
-                          className="markdown-content text-white about_me prose max-w-full"
+                          className="markdown-content text-white about_me prose prose-invert max-w-full"
                           dangerouslySetInnerHTML={{ __html: content }}
                         />
-                    
                       </div>
                     </Container>
                   </FullContainer>
@@ -218,7 +220,7 @@ export async function getServerSideProps({ req, query }) {
       about_me: about_me.data[0] || null,
       blog_list: blog_list.data[0].value,
       categories: categories?.data[0]?.value || null,
-      contact_details: contact_details.data[0]?.value ||null, 
+      contact_details: contact_details.data[0]?.value || null,
       copyright: copyright?.data[0]?.value || null,
       nav_type: nav_type?.data[0]?.value || {},
       footer_type: footer_type?.data[0]?.value || {},

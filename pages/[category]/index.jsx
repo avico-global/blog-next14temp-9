@@ -153,6 +153,7 @@ export default function Category({
               fill
               className="object-cover"
               priority
+              title={currentCategory?.title}
             />
             <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" />
           </div>
@@ -298,6 +299,7 @@ function ArticleCard({ blog, imagePath, index }) {
           alt={blog.title}
           fill={true}
           className="object-cover group-hover:scale-110 transition-transform duration-700"
+          title={blog.title}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent" />
 
@@ -308,6 +310,7 @@ function ArticleCard({ blog, imagePath, index }) {
               blog.title
             )}`}
             className="block"
+            title={blog.title}
           >
             <h3
               className="text-xl font-semibold text-white group-hover:text-secondary 
@@ -343,12 +346,14 @@ function ArticleCard({ blog, imagePath, index }) {
           </div>
 
           <Link
-            href={`/blog/${sanitizeUrl(blog.article_category)}/${sanitizeUrl(
-              blog.title
-            )}`}
+           
+            href={`/${sanitizeUrl(
+              blog.article_category
+            )}/${sanitizeUrl(blog?.title)}`}
             className="flex items-center gap-1 text-secondary text-sm font-medium
                      group-hover:gap-2 transition-all duration-300 
                      hover:text-secondary/80"
+                     title={blog.title}
           >
             <span>Read</span>
             <ArrowRight className="w-4 h-4" />

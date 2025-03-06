@@ -67,6 +67,7 @@ export default function Footer({ logo, imagePath, categories }) {
                   <motion.a
                     key={index}
                     href={social.href}
+                    title={social.label}
                     whileHover={{ scale: 1.1 }}
                     className="w-10 h-10 rounded-full bg-white/5 hover:bg-white/10 
                              flex items-center justify-center transition-colors duration-300
@@ -92,6 +93,7 @@ export default function Footer({ logo, imagePath, categories }) {
                     href={link.href}
                     className="text-white/60 hover:text-secondary flex items-center gap-2 
                              transition-colors duration-300 group"
+                    title={link.name}
                   >
                     <span>{link.name}</span>
                     <ArrowUpRight
@@ -117,6 +119,7 @@ export default function Footer({ logo, imagePath, categories }) {
                     href={`/blog/${category.title.toLowerCase()}`}
                     className="text-white/60 hover:text-secondary flex items-center gap-2 
                              transition-colors duration-300 group"
+                    title={category.title}
                   >
                     <span>{category.title}</span>
                     <ArrowUpRight

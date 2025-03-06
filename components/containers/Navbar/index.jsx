@@ -97,6 +97,7 @@ export default function Navbar({ logo, categories, imagePath, blog_list }) {
                         activeDropdown === link.name ? null : link.name
                       )
                     }
+                    title={link.name}
                   >
                     <span>{link.name}</span>
                     <ChevronDown className="w-4 h-4" />
@@ -105,6 +106,7 @@ export default function Navbar({ logo, categories, imagePath, blog_list }) {
                   <Link
                     href={link.href}
                     className="text-white hover:text-secondary transition-colors relative group"
+                    title={link.name}
                   >
                     {link.name}
                     <span className="absolute bottom-0 left-0 w-full h-0.5 bg-secondary transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300" />
@@ -123,9 +125,11 @@ export default function Navbar({ logo, categories, imagePath, blog_list }) {
                           key={idx}
                           href={`/${sanitizeUrl(item.title)}`}
                           className="flex items-center gap-4 p-2 rounded-lg hover:bg-white/10 transition-colors"
+                          title={item.title}
                         >
                           <Image
                             src={`${imagePath}/${item.image}`}
+                            title={item.title}
                             alt={item.title}
                             width={60}
                             height={60}
@@ -161,6 +165,7 @@ export default function Navbar({ logo, categories, imagePath, blog_list }) {
                           result.article_category
                         )}/${sanitizeUrl(result.title)}`}
                         className="block px-4 py-2 hover:bg-gray-100 text-gray-700"
+                        title={result.title}
                       >
                         {result.title}
                       </Link>
@@ -175,6 +180,7 @@ export default function Navbar({ logo, categories, imagePath, blog_list }) {
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             className="lg:hidden rounded-full p-2 hover:bg-white/10 transition-colors"
+            title="Mobile Menu"
           >
             {isMobileMenuOpen ? (
               <X className="w-6 h-6 text-white" />
@@ -215,9 +221,11 @@ export default function Navbar({ logo, categories, imagePath, blog_list }) {
                             key={idx}
                             href={`/${sanitizeUrl(item.title)}`}
                             className="flex items-center gap-3 p-2 rounded-lg hover:bg-white/10"
+                            title={item.title}
                           >
                             <Image
                               src={`${imagePath}/${item.image}`}
+                              title={item.title}
                               alt={item.title}
                               width={40}
                               height={40}
@@ -233,6 +241,7 @@ export default function Navbar({ logo, categories, imagePath, blog_list }) {
                   <Link
                     href={link.href}
                     className="block py-2 text-white hover:text-secondary transition-colors"
+                    title={link.title}
                   >
                     {link.name}
                   </Link>
