@@ -125,7 +125,7 @@ export default function Banner({ image, data, blog_list, imagePath }) {
                     <BlogCard
                       key={index}
                       {...item}
-                      href={`/blog/${sanitizeUrl(
+                      href={`/${sanitizeUrl(
                         item.article_category
                       )}/${sanitizeUrl(item?.title)}`}
                       delay={index * 0.2}
@@ -158,7 +158,7 @@ function BlogCard({ title, article_category, href, date, author, delay }) {
           <div
             onClick={(e) => {
               e.preventDefault();
-              window.location.href = `/blog/${sanitizeUrl(article_category)}`;
+              window.location.href = `/${sanitizeUrl(article_category)}`;
             }}
             className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium 
                      bg-secondary/20 text-secondary hover:bg-secondary/30 

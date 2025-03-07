@@ -93,7 +93,7 @@ function ArticleCard({ blog, imagePath, index }) {
 
         {/* Category Tag */}
         <Link
-          href={`/blog/${sanitizeUrl(blog.article_category)}`}
+          href={`/${sanitizeUrl(blog.article_category)}`}
           className="absolute top-4 left-4 px-3 py-1 rounded-full text-xs font-medium 
                    bg-secondary/20 text-secondary hover:bg-secondary/30 backdrop-blur-sm
                    transition-all duration-300 z-10"
@@ -106,7 +106,7 @@ function ArticleCard({ blog, imagePath, index }) {
         {/* Title Overlay */}
         <div className="absolute bottom-0 left-0 right-0 p-6">
           <Link
-            href={`/blog/${sanitizeUrl(blog.article_category)}/${sanitizeUrl(
+            href={`/${sanitizeUrl(blog.article_category)}/${sanitizeUrl(
               blog.title
             )}`}
             className="block"
@@ -146,13 +146,13 @@ function ArticleCard({ blog, imagePath, index }) {
           </div>
 
           <Link
-            href={`/blog/${sanitizeUrl(blog.article_category)}/${sanitizeUrl(
+            href={`/${sanitizeUrl(blog.article_category)}/${sanitizeUrl(
               blog.title
             )}`}
             className="flex items-center gap-1 text-secondary text-sm font-medium
                      group-hover:gap-2 transition-all duration-300 
                      hover:text-secondary/80"
-                     title={blog.title}
+            title={blog.title}
           >
             <span>Read</span>
             <ArrowRight className="w-4 h-4" />

@@ -87,7 +87,7 @@ function PopularCard({ blog, imagePath, index }) {
 
         {/* Category Tag */}
         <Link
-          href={`/blog/${sanitizeUrl(blog.article_category)}`}
+          href={`/${sanitizeUrl(blog.article_category)}`}
           className="absolute top-4 left-4 px-3 py-1 rounded-full text-xs font-medium 
                    bg-secondary/20 text-secondary hover:bg-secondary/30 backdrop-blur-sm
                    transition-all duration-300 z-10"
@@ -100,7 +100,7 @@ function PopularCard({ blog, imagePath, index }) {
       {/* Content */}
       <div className="p-6">
         <Link
-          href={`/blog/${sanitizeUrl(blog.article_category)}/${sanitizeUrl(
+          href={`/${sanitizeUrl(blog.article_category)}/${sanitizeUrl(
             blog.title
           )}`}
           title={blog.title}
@@ -135,7 +135,7 @@ function PopularCard({ blog, imagePath, index }) {
           </div>
 
           <Link
-            href={`/blog/${sanitizeUrl(blog.article_category)}/${sanitizeUrl(
+            href={`/${sanitizeUrl(blog.article_category)}/${sanitizeUrl(
               blog.title
             )}`}
             className="flex items-center gap-1 text-secondary text-sm 
