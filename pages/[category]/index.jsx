@@ -306,7 +306,7 @@ function ArticleCard({ blog, imagePath, index }) {
         {/* Title Overlay */}
         <div className="absolute bottom-0 left-0 right-0 p-6">
           <Link
-            href={`/blog/${sanitizeUrl(blog.article_category)}/${sanitizeUrl(
+            href={`/${sanitizeUrl(blog.article_category)}/${sanitizeUrl(
               blog.title
             )}`}
             className="block"
