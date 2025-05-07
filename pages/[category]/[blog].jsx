@@ -81,7 +81,7 @@ export default function Blog({
         <link rel="author" href={`https://${domain}`} />
         <link
           rel="canonical"
-          href={`https:/${domain}/${category}/${blog}`}
+          href={`https://${domain}/${category}/${blog}`}
         />
         <meta name="theme-color" content="#008DE5" />
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
