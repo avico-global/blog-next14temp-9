@@ -7,7 +7,7 @@ export default function Breadcrumbs({ breadcrumbs, className }) {
   return (
     <div
       className={cn(
-        "w-full flex items-center py-2 font-semibold text-gray-500",
+        "w-full flex items-center py-2 font-semibold text-gray-200",
         className
       )}
     >
@@ -15,7 +15,7 @@ export default function Breadcrumbs({ breadcrumbs, className }) {
         <span key={index} className="flex items-center gap-2">
           {index > 0 && <ChevronsRight className="w-4" />}
           {index === breadcrumbs.length - 1 ? (
-            <span className="text-black">
+            <span className="text-gray-200">
               {breadcrumb.label
                 ?.replaceAll("%20", " ")
                 ?.replaceAll("%E2%80%99", "'")}
@@ -27,7 +27,7 @@ export default function Breadcrumbs({ breadcrumbs, className }) {
                 ?.replaceAll("%20", "-")
                 ?.replaceAll("%E2%80%99", "'")}
               href={breadcrumb.url}
-              className="hover:underline transition-all"
+              className="hover:underline  transition-all"
             >
               {breadcrumb.label
                 ?.replaceAll("%20", " ")

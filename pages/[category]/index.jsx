@@ -47,8 +47,6 @@ export default function Category({
 
   const filteredBlogList = blog_list.filter((item) => {
     const searchContent = sanitizeUrl(category);
-    // console.log("Search Content:", searchContent);
-    // console.log("Item category:", sanitizeUrl(item.article_category));
 
     return sanitizeUrl(item.article_category) === searchContent;
   });
@@ -56,8 +54,11 @@ export default function Category({
   useEffect(() => {
     const currentPath = router.asPath;
 
-    if (category && (category.includes("%20") || category.includes(" "))) {
-      const newCategory = category.replace(/%20/g, "-").replace(/ /g, "-");
+    if (category && (category.includes("%20") || category.includes(" ") || category.includes("&"))) {
+      const newCategory = category
+        .replace(/%20/g, "-")
+        .replace(/ /g, "-")
+        .replace(/&/g, "and");
       router.replace(`/${newCategory}`);
     }
 
@@ -93,7 +94,12 @@ export default function Category({
         <title>
           {meta?.title?.replaceAll(
             "##category##",
-            category?.replaceAll("-", " ")
+            category
+              ?.replaceAll("-", " ")
+              .replaceAll("&", "and")
+              .split(' ')
+              .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+              .join(' ')
           )}
         </title>
         <meta
@@ -171,9 +177,9 @@ export default function Category({
               </div>
               <h1
                 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 
-                           bg-gradient-to-r from-white via-white to-secondary/80 bg-clip-text text-transparent"
+             bg-gradient-to-r from-white via-white to-secondary/80 bg-clip-text text-transparent"
               >
-                {currentCategory?.title}
+                {currentCategory?.title?.replaceAll("&", "and")}
               </h1>
               <p className="text-white/70 max-w-2xl mx-auto text-lg">
                 {currentCategory?.description ||
@@ -346,14 +352,13 @@ function ArticleCard({ blog, imagePath, index }) {
           </div>
 
           <Link
-           
-            href={`/${sanitizeUrl(
-              blog.article_category
-            )}/${sanitizeUrl(blog?.title)}`}
+            href={`/${sanitizeUrl(blog.article_category)}/${sanitizeUrl(
+              blog?.title
+            )}`}
             className="flex items-center gap-1 text-secondary text-sm font-medium
                      group-hover:gap-2 transition-all duration-300 
                      hover:text-secondary/80"
-                     title={blog.title}
+            title={blog.title}
           >
             <span>Read</span>
             <ArrowRight className="w-4 h-4" />

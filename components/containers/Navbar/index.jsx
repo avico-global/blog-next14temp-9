@@ -136,7 +136,7 @@ export default function Navbar({ logo, categories, imagePath, blog_list }) {
                             className="rounded-md object-cover"
                           />
                           <span className="text-white font-medium">
-                            {item.title}
+                            {item.title.replace(/&/g, "and")}
                           </span>
                         </Link>
                       ))}
@@ -231,7 +231,7 @@ export default function Navbar({ logo, categories, imagePath, blog_list }) {
                               height={40}
                               className="rounded-md object-cover"
                             />
-                            <span className="text-white">{item.title}</span>
+                            <span className="text-white">{item.title.replace(/&/g, "and")}</span>
                           </Link>
                         ))}
                       </div>

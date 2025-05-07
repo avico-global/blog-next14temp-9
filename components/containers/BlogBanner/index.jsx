@@ -3,7 +3,7 @@ import Image from "next/image";
 
 export default function BlogBanner({ myblog, imagePath }) {
   return (
-    <div className="relative min-h-screen mt-3 mx-auto max-w-full text-white">
+    <div className="relative min-h-[700px] mt-3 mx-auto max-w-full text-white">
       {/* Background Image */}
       <Image
         src={`${imagePath}/${myblog?.file_name}`}
@@ -30,17 +30,17 @@ export default function BlogBanner({ myblog, imagePath }) {
       />
 
       {/* Text Content */}
-      <div className="absolute inset-0 flex items-center md:px-8 lg:px-20  justify-start bg-gradient-to-t from-black/60 to-transparent">
-        <div className="px-4 lg:px-6">
+      <div className="absolute inset-0 flex items-center md:px-8 lg:px-20  justify-center bg-gradient-to-t from-black/60 to-transparent">
+        <div className="px-4 text-center lg:px-6">
           <p className="font-bold">{myblog?.value?.article_category}</p>
 
           <h1
             style={{ fontSize: myblog?.value?.titleFontSize || 50 }}
-            className=" capitalize font-extrabold text-white"
+            className=" capitalize font-extrabold text-white text-center"
           >
             {myblog?.value.title}
           </h1>
-          <div className="text-gray-300 flex items-center gap-4 mt-2 mb-4">
+          <div className="text-gray-300 flex items-center text-center justify-center gap-4 mt-2 mb-4">
             <p>{myblog?.value?.author}</p>
             <span className="text-button"> -- </span>
             <p>{myblog?.value.published_at}</p>
