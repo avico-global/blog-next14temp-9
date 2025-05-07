@@ -16,12 +16,7 @@ import {
 export default function Footer({ logo, imagePath, categories }) {
   const currentYear = new Date().getFullYear();
 
-  const socialLinks = [
-    { icon: Facebook, href: "#", label: "Facebook" },
-    { icon: Twitter, href: "#", label: "Twitter" },
-    { icon: Instagram, href: "#", label: "Instagram" },
-    { icon: Linkedin, href: "#", label: "LinkedIn" },
-  ];
+ 
 
   const quickLinks = [
     { name: "Home", href: "/" },
@@ -59,25 +54,7 @@ export default function Footer({ logo, imagePath, categories }) {
               Discover the latest insights, tutorials, and trends in the world
               of technology and development.
             </p>
-            <div className="flex items-center gap-4">
-              {socialLinks.map((social, index) => {
-                const Icon = social.icon;
-                return (
-                  <motion.a
-                    key={index}
-                    href={social.href}
-                    title={social.label}
-                    whileHover={{ scale: 1.1 }}
-                    className="w-10 h-10 rounded-full bg-white/5 hover:bg-white/10 
-                             flex items-center justify-center transition-colors duration-300
-                             text-white/60 hover:text-secondary"
-                    aria-label={social.label}
-                  >
-                    <Icon className="w-5 h-5" />
-                  </motion.a>
-                );
-              })}
-            </div>
+          
           </div>
 
           {/* Quick Links */}
