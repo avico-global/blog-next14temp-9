@@ -86,13 +86,13 @@ export default function Footer({ logo, imagePath, categories }) {
           {/* Categories */}
           <div>
             <h3 className="text-white font-semibold text-lg mb-6">
-              Categories
+              Categories  
             </h3>
             <ul className="space-y-4">
-              {categories?.slice(0, 6).map((category, index) => (
+              {categories?.slice(0, 6).map((category, index) => ( 
                 <li key={index}>
                   <Link
-                    href={`/blog/${category.title.toLowerCase()}`}
+                    href={`/${category.title.toLowerCase()}`}
                     className="text-white/60 hover:text-secondary flex items-center gap-2 
                              transition-colors duration-300 group"
                     title={category.title}
