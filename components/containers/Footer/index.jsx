@@ -119,17 +119,17 @@ export default function Footer({ logo, imagePath, categories }) {
             <p className="text-white/60 text-sm mb-6">
               Stay updated with our latest articles and tech news.
             </p>
-            <form className="flex gap-2 max-w-md mx-auto">
+            <form className="flex gap-2 lg:max-w-md mx-auto">
               <input
                 type="email"
                 placeholder="Enter your email"
-                className="flex-1 bg-white/5 border border-white/10 rounded-lg px-4 py-2
+                className="flex-1 bg-white/5 border border-white/10 rounded-lg px-3 lg:px-4 py-2
                          text-white placeholder-white/40 focus:outline-none focus:border-secondary
                          transition-colors duration-300"
               />
               <button
                 type="submit"
-                className="bg-secondary hover:bg-secondary/80 text-white px-6 py-2 rounded-lg
+                className="bg-secondary hover:bg-secondary/80 text-white  px-2 lg:px-6 py-2 rounded-lg
                          transition-colors duration-300 font-medium"
               >
                 Subscribe

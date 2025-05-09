@@ -87,7 +87,7 @@ export default function Banner({ image, data, blog_list, imagePath }) {
 
             <motion.h1
               variants={itemVariants}
-              className="font-bold capitalize text-5xl md:text-7xl 
+              className="font-bold capitalize text-4xl md:text-7xl 
                        text-white leading-tight mb-8
                        [text-shadow:_2px_2px_10px_rgb(0_0_0_/_40%)]
                        bg-gradient-to-r from-white via-white/90 to-secondary bg-clip-text text-transparent"
