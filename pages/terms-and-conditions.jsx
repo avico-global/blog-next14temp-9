@@ -15,6 +15,7 @@ import Head from "next/head";
 import { Raleway } from "next/font/google";
 import JsonLd from "@/components/json/JsonLd";
 import { useRouter } from "next/router";
+import Logo from "@/components/containers/Navbar/Logo";
 const myFont = Raleway({
   subsets: ["cyrillic", "cyrillic-ext", "latin", "latin-ext"],
 });
@@ -108,6 +109,7 @@ export default function Terms({
 
       <Footer
         imagePath={imagePath}
+        logo={logo}
         blog_list={blog_list}
         categories={categories}
         footer_type={footer_type}

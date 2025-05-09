@@ -106,6 +106,7 @@ export default function PriavcyPolicy({
 
       <Footer
         imagePath={imagePath}
+        logo={logo}
         blog_list={blog_list}
         categories={categories}
         footer_type={footer_type}
